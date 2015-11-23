@@ -33,7 +33,7 @@ public class ApiServiceImpl implements ApiService {
     public ApiServiceImpl() {
 
         //SQLiteDatabase db = SQLiteDatabase.deleteDatabase("ShareTool.db");
-        populateDatabase();
+        //populateDatabase();
     }
 
     private void populateDatabase() {

@@ -11,8 +11,10 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -48,6 +50,7 @@ public class ListActivity extends AppCompatActivity implements NoticeDialogListe
     private LocationRequest mLocationRequest;
     private SwipeRefreshLayout mRefreshLayout;
     private FilterListTools filters;
+    private View mEmptyListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,9 +59,18 @@ public class ListActivity extends AppCompatActivity implements NoticeDialogListe
         buildGoogleApiClient();
         mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
         mToolsListView = (ListView) findViewById(R.id.listaView);
+
+        mFilterToolsDialog = new FilterToolsDialog(this, this);
+
+/*
+        LayoutInflater inflater = LayoutInflater.from(this);
+        mEmptyListView = inflater.inflate(R.layout.tool_list_empty, null);
+*/
+
+        mToolsListView.setEmptyView(findViewById(R.id.emptyListTextView));
+
         mToolsListArraysAdapter = new ToolArrayAdapter(this, new ArrayList<ITool>());
         mToolsListView.setAdapter(mToolsListArraysAdapter);
-        mFilterToolsDialog = new FilterToolsDialog(this, this);
 
         mLoggedUser = (IUser) getIntent().getSerializableExtra(LoginActivity.LOGGED_USER);
 
@@ -106,12 +118,13 @@ public class ListActivity extends AppCompatActivity implements NoticeDialogListe
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
+        mGoogleApiClient.connect();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        mGoogleApiClient.connect();
+
     }
 
     @Override
@@ -134,14 +147,15 @@ public class ListActivity extends AppCompatActivity implements NoticeDialogListe
 
         LocationServices.FusedLocationApi.requestLocationUpdates(
                 mGoogleApiClient, mLocationRequest, this);
+
+        new FindToolsAsyncTask().execute();
+
     }
 
     public void onLocationChanged(Location location) {
 
         mCurrentLocation = location;
-        Log.i(ListActivity.class.toString(), "Updated location: " + location);
     }
-
 
     @Override
     public void onConnectionSuspended(int var1) {
@@ -179,32 +193,33 @@ public class ListActivity extends AppCompatActivity implements NoticeDialogListe
 
     }
 
-    class FindToolsAsyncTask extends AsyncTask<FilterListTools, Integer, List<? extends ITool>> {
+    private class FindToolsAsyncTask extends AsyncTask<FilterListTools, Integer, List<? extends ITool>> {
 
         ProgressDialog progressDialog;
 
         @Override
         protected void onPreExecute() {
-            progressDialog = ProgressDialog.show(ListActivity.this, "Loading", "Wait while loading...", true, true);
+            progressDialog = ProgressDialog.show(ListActivity.this, "Cargando", "Espere mientras se cargan las herramientas..", true, true);
             mToolsListArraysAdapter.clear();
         }
 
         @Override
         protected List<? extends ITool> doInBackground(FilterListTools... params) {
 
-            if(params != null && params.length > 0 ) {
-                FilterListTools filters = params[0];
+            FilterListTools filters = new FilterListTools();
 
-                String toolName = filters.getToolName();
-                Float maxPrice = filters.getPriceFilter() ? filters.getMaxPrice() : null;
-                Float maxDistance = filters.getDistanceFilter() ? filters.getMaxDistance() : null;
-                Float lat = mCurrentLocation != null ? new Float(mCurrentLocation.getLatitude()) : null;
-                Float lng = mCurrentLocation != null ? new Float(mCurrentLocation.getLongitude()) : null;
-
-                return mAPI.findTools(toolName, maxPrice, maxDistance, lat, lng, filters.getToolOrderEnum());
+            if (params != null && params.length > 0 && params[0] != null) {
+                filters = params[0];
             }
 
-            return Collections.EMPTY_LIST;
+            String toolName = filters.getToolName();
+            Float maxPrice = filters.getPriceFilter() ? filters.getMaxPrice() : null;
+            Float maxDistance = filters.getDistanceFilter() ? filters.getMaxDistance() : null;
+            Float lat = mCurrentLocation != null ? (float) mCurrentLocation.getLatitude() : null;
+            Float lng = mCurrentLocation != null ? (float) mCurrentLocation.getLongitude() : null;
+
+            return mAPI.findTools(toolName, maxPrice, maxDistance, lat, lng, filters.getToolOrderEnum());
+
         }
 
         @Override

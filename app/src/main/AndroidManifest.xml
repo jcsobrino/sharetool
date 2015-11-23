@@ -46,7 +46,6 @@
         <activity
             android:name=".view.CreateUserActivity"
             android:label="Alta usuario" >
-
         </activity>
         <activity android:name=".view.LoginActivity" >
             <intent-filter>
@@ -54,6 +53,8 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".view.ToolDetailsActivity" >
         </activity>
     </application>
 
