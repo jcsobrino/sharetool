@@ -20,8 +20,4 @@ public interface IUser extends Serializable{
     String getPassword();
 
     void setPassword(String password);
-
-    String getImageCode();
-
-    void setImageCode(String imageCode);
 }

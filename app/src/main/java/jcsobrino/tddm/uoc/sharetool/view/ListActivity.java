@@ -100,7 +100,7 @@ public class ListActivity extends AppCompatActivity implements NoticeDialogListe
     }
 
     protected synchronized void buildGoogleApiClient() {
-        deleteDatabase("ShareTool.db");
+
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)

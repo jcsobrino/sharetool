@@ -1,5 +1,6 @@
 
 package jcsobrino.tddm.uoc.sharetool.domain;
+
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
@@ -24,15 +25,13 @@ public class Tool extends Model implements ITool {
     private Float positionLat;
     @Column(notNull = true)
     private Float positionLng;
-    private String mainImageCode;
-    private String[] secondaryImageCodes;
     private Float distanceInKilometers;
 
     public Tool() {
         super();
     }
 
-    public Tool(String name, String description, Float pricePerDay, User user, Float positionLat, Float positionLng, String mainImageCode, String[] secondaryImageCodes) {
+    public Tool(String name, String description, Float pricePerDay, User user, Float positionLat, Float positionLng) {
         super();
         this.name = name;
         this.description = description;
@@ -40,8 +39,6 @@ public class Tool extends Model implements ITool {
         this.user = user;
         this.positionLat = positionLat;
         this.positionLng = positionLng;
-        this.mainImageCode = mainImageCode;
-        this.secondaryImageCodes = secondaryImageCodes;
     }
 
     @Override
@@ -102,26 +99,6 @@ public class Tool extends Model implements ITool {
     @Override
     public void setPositionLng(Float positionLng) {
         this.positionLng = positionLng;
-    }
-
-    @Override
-    public String getMainImageCode() {
-        return mainImageCode;
-    }
-
-    @Override
-    public void setMainImageCode(String mainImageCode) {
-        this.mainImageCode = mainImageCode;
-    }
-
-    @Override
-    public String[] getSecondaryImageCodes() {
-        return secondaryImageCodes;
-    }
-
-    @Override
-    public void setSecondaryImageCodes(String[] secondaryImageCodes) {
-        this.secondaryImageCodes = secondaryImageCodes;
     }
 
     @Override

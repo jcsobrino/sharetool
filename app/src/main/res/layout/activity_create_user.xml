@@ -63,10 +63,22 @@
         android:layout_height="wrap_content"
         android:text="Crear usuario"
         android:id="@+id/createUserButton"
+        android:layout_above="@+id/cancelButton"
+        android:layout_alignLeft="@+id/cancelButton"
+        android:layout_alignStart="@+id/cancelButton"
+        android:layout_alignRight="@+id/cancelButton"
+        android:layout_alignEnd="@+id/cancelButton" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancelar"
+        android:id="@+id/cancelButton"
+        android:layout_alignParentBottom="true"
         android:layout_alignLeft="@+id/repeatPasswodEditText"
         android:layout_alignStart="@+id/repeatPasswodEditText"
         android:layout_alignRight="@+id/repeatPasswodEditText"
         android:layout_alignEnd="@+id/repeatPasswodEditText"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="30dp" />
+        android:layout_marginBottom="40dp" />
+
 </RelativeLayout>

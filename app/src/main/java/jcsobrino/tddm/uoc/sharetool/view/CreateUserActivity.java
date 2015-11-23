@@ -22,7 +22,7 @@ public class CreateUserActivity extends AppCompatActivity {
     private EditText mPassword;
     private EditText mRepeatPassword;
     private Button mCreateUserButton;
-
+    private Button mCancelButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +34,7 @@ public class CreateUserActivity extends AppCompatActivity {
         mPassword = (EditText) findViewById(R.id.passwordEditText);
         mRepeatPassword = (EditText) findViewById(R.id.repeatPasswodEditText);
         mCreateUserButton = (Button) findViewById(R.id.createUserButton);
+        mCancelButton = (Button) findViewById(R.id.cancelButton);
 
         mCreateUserButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,12 +49,21 @@ public class CreateUserActivity extends AppCompatActivity {
                     try {
                         mAPI.createUser(username, email, password);
                         Toast.makeText(getApplicationContext(), "El usuario ha sido registrado", Toast.LENGTH_LONG).show();
+                        finish();
                     } catch (RuntimeException re) {
                         Toast.makeText(getApplicationContext(), "Se ha producido un error durante la creación del usuario", Toast.LENGTH_LONG).show();
                     }
                 }
             }
         });
+
+        mCancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
     }
 
     private boolean validateFields() {

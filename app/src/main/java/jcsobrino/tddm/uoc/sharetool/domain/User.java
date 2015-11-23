@@ -18,19 +18,17 @@ public class User extends Model implements IUser {
     private String email;
     @Column(notNull = true)
     private String password;
-    @Column(notNull = true)
-    private String imageCode;
 
-    public User(){
+    public User() {
         super();
     }
-    public User(String name, String email, String password, String imageCode) {
+
+    public User(String name, String email, String password) {
         super();
         this.name = name;
         this.email = email;
         this.password = password;
-        this.imageCode = imageCode;
-    }
+     }
 
     public String getName() {
         return name;
@@ -56,11 +54,4 @@ public class User extends Model implements IUser {
         this.password = password;
     }
 
-    public String getImageCode() {
-        return imageCode;
-    }
-
-    public void setImageCode(String imageCode) {
-        this.imageCode = imageCode;
-    }
 }

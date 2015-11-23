@@ -1,5 +1,6 @@
 package jcsobrino.tddm.uoc.sharetool.service.impl;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
 
 import com.activeandroid.ActiveAndroid;
@@ -31,9 +32,8 @@ public class ApiServiceImpl implements ApiService {
 
     public ApiServiceImpl() {
 
+        //SQLiteDatabase db = SQLiteDatabase.deleteDatabase("ShareTool.db");
         populateDatabase();
-
-        // SQLiteDatabase db = SQLiteDatabase.deleteDatabase("ShareTool.db");
     }
 
     private void populateDatabase() {
@@ -41,9 +41,9 @@ public class ApiServiceImpl implements ApiService {
         int c = new Select().from(User.class).count();
 
 
-        User user1 = new User("Nombre usuario 1", "1@1.com", "password", "Image usuario 1");
+        User user1 = new User("Nombre usuario 1", "1@1.com", "password1");
         user1.save();
-        User user2 = new User("Nombre usuario 2", "2@2.com", "password", "Image usuario 2");
+        User user2 = new User("Nombre usuario 2", "2@2.com", "password2");
         user2.save();
 
         List<User> listUsers = Arrays.asList(user1, user2);
@@ -67,7 +67,7 @@ public class ApiServiceImpl implements ApiService {
                 float lng = random.nextFloat() * (lngMax - lngMin) + lngMin;
 
                 User userTool = listUsers.get(random.nextInt(listUsers.size()));
-                Tool tool = new Tool("Tool name " + i, "Tool description " + i, pricePerDay, userTool, lat, lng, null, null);
+                Tool tool = new Tool("Tool name " + i, "Tool description " + i, pricePerDay, userTool, lat, lng);
                 tool.save();
             }
 

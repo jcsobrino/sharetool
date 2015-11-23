@@ -39,13 +39,5 @@ public interface ITool extends Serializable{
 
     void setPositionLng(Float positionLng);
 
-    String getMainImageCode();
-
-    void setMainImageCode(String mainImageCode);
-
-    String[] getSecondaryImageCodes();
-
-    void setSecondaryImageCodes(String[] secondaryImageCodes);
-
     Float getDistanceInKilometers();
 }
