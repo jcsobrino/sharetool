@@ -70,41 +70,49 @@ public class CreateUserActivity extends AppCompatActivity {
 
         boolean result = true;
 
-        if (TextUtils.isEmpty(mUsername.getText())) {
+        if (TextUtils.isEmpty(mRepeatPassword.getText())) {
 
-            mUsername.setError("Campo obligatorio");
-            result = false;
-        }
-
-        if (TextUtils.isEmpty(mEmail.getText())) {
-            mEmail.setError("Campo obligatorio");
-            result = false;
-        } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(mEmail.getText()).matches()) {
-            mEmail.setError("El e-mail es incorrecto");
-            result = false;
-        } else if (mAPI.userExistsByEmail(mEmail.getText().toString())) {
-
-            mEmail.setError("E-mail ya existente");
+            mRepeatPassword.setError(getString(R.string.error_field_required));
+            mRepeatPassword.requestFocus();
             result = false;
         }
 
         if (TextUtils.isEmpty(mPassword.getText())) {
 
-            mPassword.setError("Campo obligatorio");
+            mPassword.setError(getString(R.string.error_field_required));
+            mPassword.requestFocus();
             result = false;
         }
 
-        if (TextUtils.isEmpty(mRepeatPassword.getText())) {
-
-            mRepeatPassword.setError("Campo obligatorio");
-            result = false;
-        }
-
-        if(!TextUtils.isEmpty(mPassword.getText()) && !TextUtils.isEmpty(mRepeatPassword.getText()) && !mPassword.getText().toString().equals(mRepeatPassword.getText().toString())){
+        if (!TextUtils.isEmpty(mPassword.getText()) && !TextUtils.isEmpty(mRepeatPassword.getText()) && !mPassword.getText().toString().equals(mRepeatPassword.getText().toString())) {
 
             mRepeatPassword.setError("Los passwords son diferentes");
+            mRepeatPassword.requestFocus();
             result = false;
+        }
 
+        if (TextUtils.isEmpty(mEmail.getText())) {
+
+            mEmail.setError(getString(R.string.error_field_required));
+            mEmail.requestFocus();
+            result = false;
+        } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(mEmail.getText()).matches()) {
+
+            mEmail.setError("El e-mail es incorrecto");
+            mEmail.requestFocus();
+            result = false;
+        } else if (mAPI.userExistsByEmail(mEmail.getText().toString())) {
+
+            mEmail.setError("E-mail ya existente");
+            mEmail.requestFocus();
+            result = false;
+        }
+
+        if (TextUtils.isEmpty(mUsername.getText())) {
+
+            mUsername.setError(getString(R.string.error_field_required));
+            mUsername.requestFocus();
+            result = false;
         }
 
         return result;

@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.logging.Filter;
 
 import jcsobrino.tddm.uoc.sharetool.R;
 import jcsobrino.tddm.uoc.sharetool.common.ToolOrderEnum;
@@ -53,6 +55,8 @@ public class FilterToolsDialog extends AlertDialog {
 
         mListener = listener;
 
+        sdf.setLenient(true);
+
         distanceCheckBox = (CheckBox) v.findViewById(R.id.distanciaCheckBox);
         priceCheckBox = (CheckBox) v.findViewById(R.id.precioCheckBox);
         dateDaysCheckBox = (CheckBox) v.findViewById(R.id.fechaCheckBox);
@@ -77,7 +81,7 @@ public class FilterToolsDialog extends AlertDialog {
         distanceSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                distanceTextView.setText(String.format("%d kms",progress));
+                distanceTextView.setText(String.format("%d kms", progress));
             }
 
             @Override
@@ -115,16 +119,34 @@ public class FilterToolsDialog extends AlertDialog {
         });
 
         setButton(BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
-
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
-                copyFilterValuesFromUIToBean();
-                if (listener != null) {
-                    listener.onDialogPositiveClick(FilterToolsDialog.this);
-                }
             }
         });
+
+        setOnShowListener(new DialogInterface.OnShowListener() {
+
+            @Override
+            public void onShow(final DialogInterface dialog) {
+
+                Button b = FilterToolsDialog.this.getButton(AlertDialog.BUTTON_POSITIVE);
+                b.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View view) {
+
+                        if (validateFields()) {
+                            copyFilterValuesFromUIToBean();
+                            if (listener != null) {
+                                listener.onDialogPositiveClick(FilterToolsDialog.this);
+                            }
+                            FilterToolsDialog.this.dismiss();
+                        }
+                    }
+                });
+            }
+        });
+
 
         setButton(BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {
 
@@ -165,7 +187,7 @@ public class FilterToolsDialog extends AlertDialog {
 
         filterListTools.setToolOrderEnum(nearerToolsFirstOrder.isChecked() ? ToolOrderEnum.NEAR_TOOL : ToolOrderEnum.MIN_PRICE);
 
-        filterListTools.setMaxDistance((float)distanceSeekBar.getProgress());
+        filterListTools.setMaxDistance((float) distanceSeekBar.getProgress());
         filterListTools.setMaxPrice(TextUtils.isEmpty(priceEditText.getText()) ? null : Float.parseFloat(priceEditText.getText().toString()));
         filterListTools.setDays(TextUtils.isEmpty(daysEditText.getText()) ? null : Integer.parseInt(daysEditText.getText().toString()));
         try {
@@ -173,6 +195,58 @@ public class FilterToolsDialog extends AlertDialog {
         } catch (ParseException pe) {
             Toast.makeText(getContext(), String.format("Error parsing date %s", dateEditText.getText()), Toast.LENGTH_SHORT).show();
         }
+    }
+
+
+    private boolean validateFields() {
+
+        boolean result = true;
+
+        if(dateDaysCheckBox.isChecked()) {
+
+            if(TextUtils.isEmpty(daysEditText.getText())){
+
+                daysEditText.setError(getContext().getString(R.string.error_field_required));
+                daysEditText.requestFocus();
+                result = false;
+            }
+
+            if(TextUtils.isEmpty(dateEditText.getText())){
+
+                dateEditText.setError(getContext().getString(R.string.error_field_required));
+                dateEditText.requestFocus();
+                result = false;
+            }
+
+            if (!TextUtils.isEmpty(dateEditText.getText())) {
+                try {
+                    sdf.parse(dateEditText.getText().toString());
+                } catch (ParseException pe) {
+                    dateEditText.setError("Formato incorrecto: dd/MM/yyyy");
+                    dateEditText.requestFocus();
+                    result = false;
+                }
+            }
+        }
+
+        if(priceCheckBox.isChecked()) {
+
+            if (TextUtils.isEmpty(priceEditText.getText())) {
+
+                priceEditText.setError(getContext().getString(R.string.error_field_required));
+                priceEditText.requestFocus();
+                result = false;
+
+            } else if (priceEditText.getText().equals(".")) {
+
+                priceEditText.setError("El valor no es correcto");
+                priceEditText.requestFocus();
+                result = false;
+
+            }
+        }
+
+        return result;
     }
 
     public FilterListTools getFilterListTools() {
