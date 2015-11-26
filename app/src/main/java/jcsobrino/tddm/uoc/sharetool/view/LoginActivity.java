@@ -16,14 +16,14 @@ import java.util.List;
 
 import jcsobrino.tddm.uoc.sharetool.R;
 import jcsobrino.tddm.uoc.sharetool.common.ApiFactory;
+import jcsobrino.tddm.uoc.sharetool.common.IntentExtraInfoEnum;
 import jcsobrino.tddm.uoc.sharetool.dto.ITool;
 import jcsobrino.tddm.uoc.sharetool.dto.IUser;
 import jcsobrino.tddm.uoc.sharetool.service.ApiService;
 
 public class LoginActivity extends AppCompatActivity {
 
-    public static final String LOGGED_USER = "LOGGED_USER";
-    private ApiService mAPI = ApiFactory.INSTANCE.getApi();
+     private ApiService mAPI = ApiFactory.INSTANCE.getApi();
     private EditText mEmail;
     private EditText mPassword;
     private TextView mCreateUser;
@@ -115,7 +115,7 @@ public class LoginActivity extends AppCompatActivity {
             } else {
 
                 Intent intent = new Intent(LoginActivity.this, ListActivity.class);
-                intent.putExtra(LoginActivity.LOGGED_USER, result);
+                intent.putExtra(IntentExtraInfoEnum.LOGGED_USER.name(), result);
                 startActivity(intent);
             }
 

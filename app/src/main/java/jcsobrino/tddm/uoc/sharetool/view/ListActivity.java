@@ -2,8 +2,6 @@ package jcsobrino.tddm.uoc.sharetool.view;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.os.AsyncTask;
@@ -11,28 +9,21 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import jcsobrino.tddm.uoc.sharetool.R;
 import jcsobrino.tddm.uoc.sharetool.common.ApiFactory;
+import jcsobrino.tddm.uoc.sharetool.common.IntentExtraInfoEnum;
 import jcsobrino.tddm.uoc.sharetool.common.LocationService;
 import jcsobrino.tddm.uoc.sharetool.dto.ITool;
 import jcsobrino.tddm.uoc.sharetool.dto.IUser;
@@ -49,7 +40,7 @@ public class ListActivity extends AppCompatActivity implements NoticeDialogListe
     private ArrayAdapter mToolsListArraysAdapter;
     private FilterToolsDialog mFilterToolsDialog;
     private SwipeRefreshLayout mRefreshLayout;
-    private FilterListTools filters;
+    private FilterListTools filters = new FilterListTools();
     private View mEmptyListView;
     private SearchView mSearchView;
     private MenuItem mSearchMenuItem;
@@ -59,26 +50,14 @@ public class ListActivity extends AppCompatActivity implements NoticeDialogListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
         startService(new Intent(this, LocationService.class));
+
         mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
         mToolsListView = (ListView) findViewById(R.id.listaView);
-
         mFilterToolsDialog = new FilterToolsDialog(this, this);
-
-
-/*
-        LayoutInflater inflater = LayoutInflater.from(this);
-        mEmptyListView = inflater.inflate(R.layout.tool_list_empty, null);
-*/
-
         mToolsListView.setEmptyView(findViewById(R.id.emptyListTextView));
-
         mToolsListArraysAdapter = new ToolArrayAdapter(this, new ArrayList<ITool>());
         mToolsListView.setAdapter(mToolsListArraysAdapter);
-
-        mLoggedUser = (IUser) getIntent().getSerializableExtra(LoginActivity.LOGGED_USER);
-
-        //Toast.makeText(getApplicationContext(), String.format("Bienvenido, %s", mLoggedUser.getName()), Toast.LENGTH_LONG).show();
-
+        mLoggedUser = (IUser) getIntent().getSerializableExtra(IntentExtraInfoEnum.LOGGED_USER.name());
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -86,8 +65,20 @@ public class ListActivity extends AppCompatActivity implements NoticeDialogListe
                 mRefreshLayout.setRefreshing(false);
             }
         });
-        filters = new FilterListTools();
-        new FindToolsAsyncTask().execute(filters);
+
+        mToolsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ITool selectedTool=  (ITool) parent.getAdapter().getItem(position);
+                Intent intent = new Intent(ListActivity.this, ToolDetailsActivity.class);
+                intent.putExtra(IntentExtraInfoEnum.TOOL.name(), selectedTool);
+                startActivity(intent);
+               
+            }
+        });
+
+        //Toast.makeText(getApplicationContext(), String.format("Bienvenido, %s", mLoggedUser.getName()), Toast.LENGTH_LONG).show();
+         new FindToolsAsyncTask().execute(filters);
     }
 
     @Override

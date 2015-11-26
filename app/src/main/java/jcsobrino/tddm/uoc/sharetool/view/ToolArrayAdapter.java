@@ -59,7 +59,7 @@ public class ToolArrayAdapter<T extends ITool> extends ArrayAdapter<T> {
         nameTool.setText(tool.getName());
         distanceTool.setText(formatDistanceInKilometers(tool.getDistanceInKilometers()));
         pricePerDayTool.setText(String.format("%.2f €", tool.getPricePerDay()));
-                Picasso.with(mContext).load(String.format("http://lorempixel.com/200/100/?id=%s", tool.getId())).into(imageTool);
+        Picasso.with(mContext).load(String.format("http://lorempixel.com/200/100/?id=%s", tool.getId())).into(imageTool);
 
         //Devolver al ListView la fila creada
         return listItemView;
