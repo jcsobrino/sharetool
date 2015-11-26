@@ -1,35 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
-<item
-        android:id="@+id/add"
-        android:icon="@android:drawable/ic_menu_add"
+    xmlns:tools="http://schemas.android.com/tools">
+    <item
+        android:id="@+id/location"
+        android:icon="@android:drawable/ic_menu_mylocation"
         android:orderInCategory="1"
-        app:showAsAction="ifRoom"
-        android:title="@+string/add" />
+        android:title="@+string/add"
+        app:showAsAction="always" />
     <item
         android:id="@+id/search"
         android:icon="@android:drawable/ic_menu_search"
         android:orderInCategory="2"
-        app:showAsAction="collapseActionView|ifRoom"
         android:title="@+string/search"
-        app:actionViewClass="android.support.v7.widget.SearchView"/>
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="always" />
     <item
-        android:id="@+id/edit"
+        android:id="@+id/filter"
+        android:icon="@android:drawable/ic_menu_sort_by_size"
         android:orderInCategory="3"
-        app:showAsAction="never"
-        android:title="@+string/edit" />
+        android:title="@+string/add"
+        app:showAsAction="always" />
+
     <item
-        android:id="@+id/delete"
-        android:orderInCategory="4"
-        app:showAsAction="never"
-        android:title="@+string/delete" />
-    <item
-        android:id="@+id/action_settings"
+        android:id="@+id/logout"
         android:orderInCategory="100"
-        app:showAsAction="never"
-        android:title="@+string/action_settings" />
+        android:title="logout"
+        app:showAsAction="never" />
 
 </menu>

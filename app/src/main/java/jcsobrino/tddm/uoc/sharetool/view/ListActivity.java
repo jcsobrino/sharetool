@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -31,23 +32,21 @@ import java.util.List;
 
 import jcsobrino.tddm.uoc.sharetool.R;
 import jcsobrino.tddm.uoc.sharetool.common.ApiFactory;
+import jcsobrino.tddm.uoc.sharetool.common.LocationService;
 import jcsobrino.tddm.uoc.sharetool.dto.ITool;
 import jcsobrino.tddm.uoc.sharetool.dto.IUser;
 import jcsobrino.tddm.uoc.sharetool.service.ApiService;
 import jcsobrino.tddm.uoc.sharetool.view.form.FilterListTools;
 
-public class ListActivity extends AppCompatActivity implements NoticeDialogListener,
-        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, SearchView.OnQueryTextListener {
+public class ListActivity extends AppCompatActivity implements NoticeDialogListener, SearchView.OnQueryTextListener {
 
     private ApiService mAPI = ApiFactory.INSTANCE.getApi();
     private IUser mLoggedUser;
 
-    private GoogleApiClient mGoogleApiClient;
     private Location mCurrentLocation;
     private ListView mToolsListView;
     private ArrayAdapter mToolsListArraysAdapter;
     private FilterToolsDialog mFilterToolsDialog;
-    private LocationRequest mLocationRequest;
     private SwipeRefreshLayout mRefreshLayout;
     private FilterListTools filters;
     private View mEmptyListView;
@@ -56,11 +55,12 @@ public class ListActivity extends AppCompatActivity implements NoticeDialogListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
-        buildGoogleApiClient();
+        startService(new Intent(this, LocationService.class));
         mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
         mToolsListView = (ListView) findViewById(R.id.listaView);
 
         mFilterToolsDialog = new FilterToolsDialog(this, this);
+
 
 /*
         LayoutInflater inflater = LayoutInflater.from(this);
@@ -74,7 +74,7 @@ public class ListActivity extends AppCompatActivity implements NoticeDialogListe
 
         mLoggedUser = (IUser) getIntent().getSerializableExtra(LoginActivity.LOGGED_USER);
 
-        Toast.makeText(getApplicationContext(), String.format("Bienvenido, %s", mLoggedUser.getName()), Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(), String.format("Bienvenido, %s", mLoggedUser.getName()), Toast.LENGTH_LONG).show();
 
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -103,63 +103,35 @@ public class ListActivity extends AppCompatActivity implements NoticeDialogListe
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-            case R.id.add:
+
+            case R.id.location:
+                mCurrentLocation = LocationService.getCurrentLocation();
+                if (mCurrentLocation != null) {
+                    Toast.makeText(getApplicationContext(), String.format("Lat: %f, Lng: %f", mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude()), Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "La localización no está disponible", Toast.LENGTH_LONG).show();
+                }
+                return true;
+            case R.id.filter:
                 mFilterToolsDialog.show();
+                return true;
+            case R.id.logout:
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    protected synchronized void buildGoogleApiClient() {
-
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
-        mGoogleApiClient.connect();
-    }
-
     @Override
     protected void onStart() {
         super.onStart();
-
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        LocationServices.FusedLocationApi.removeLocationUpdates(
-                mGoogleApiClient, this);
-    }
-
-    @Override
-    public void onConnected(Bundle connectionHint) {
-
-        mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(
-                mGoogleApiClient);
-
-        mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(10000);
-        mLocationRequest.setFastestInterval(5000);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
-        LocationServices.FusedLocationApi.requestLocationUpdates(
-                mGoogleApiClient, mLocationRequest, this);
-
-        new FindToolsAsyncTask().execute();
-
-    }
-
-    public void onLocationChanged(Location location) {
-
-        mCurrentLocation = location;
-    }
-
-    @Override
-    public void onConnectionSuspended(int var1) {
-
     }
 
     @Override
@@ -172,10 +144,6 @@ public class ListActivity extends AppCompatActivity implements NoticeDialogListe
 
         //new FindToolsAsyncTask().execute();
         return false;
-    }
-
-    public void onConnectionFailed(ConnectionResult var1) {
-        Log.e(ListActivity.class.toString(), String.format("Connection failed. ConnectionResult: %s", var1.toString()));
     }
 
     @Override

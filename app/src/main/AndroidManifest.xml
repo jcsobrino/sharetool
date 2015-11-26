@@ -32,6 +32,11 @@
             android:value="jcsobrino.tddm.uoc.sharetool.domain.User, jcsobrino.tddm.uoc.sharetool.domain.Tool" />
 
         <activity android:name=".view.ListActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".view.SearchResultsActivity" >
             <meta-data
@@ -48,14 +53,17 @@
             android:label="Alta usuario" >
         </activity>
         <activity android:name=".view.LoginActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".view.ToolDetailsActivity" >
         </activity>
+
+        <service
+            android:name=".common.LocationService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+
     </application>
 
 </manifest>
