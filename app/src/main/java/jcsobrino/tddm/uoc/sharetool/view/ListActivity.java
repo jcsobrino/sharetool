@@ -10,7 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -38,7 +39,7 @@ import jcsobrino.tddm.uoc.sharetool.dto.IUser;
 import jcsobrino.tddm.uoc.sharetool.service.ApiService;
 import jcsobrino.tddm.uoc.sharetool.view.form.FilterListTools;
 
-public class ListActivity extends AppCompatActivity implements NoticeDialogListener, SearchView.OnQueryTextListener {
+public class ListActivity extends AppCompatActivity implements NoticeDialogListener {
 
     private ApiService mAPI = ApiFactory.INSTANCE.getApi();
     private IUser mLoggedUser;
@@ -50,6 +51,8 @@ public class ListActivity extends AppCompatActivity implements NoticeDialogListe
     private SwipeRefreshLayout mRefreshLayout;
     private FilterListTools filters;
     private View mEmptyListView;
+    private SearchView mSearchView;
+    private MenuItem mSearchMenuItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,19 +86,37 @@ public class ListActivity extends AppCompatActivity implements NoticeDialogListe
                 mRefreshLayout.setRefreshing(false);
             }
         });
-
+        filters = new FilterListTools();
+        new FindToolsAsyncTask().execute(filters);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
 
+/*
         SearchManager searchManager =
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView =
-                (SearchView) menu.findItem(R.id.search).getActionView();
+*/
+        mSearchMenuItem = menu.findItem(R.id.search);
+        mSearchView = (SearchView) menu.findItem(R.id.search).getActionView();
 
-        searchView.setOnQueryTextListener(this);
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+               // mSearchView.setIconified(true);
+               // mSearchView.clearFocus();
+                mSearchMenuItem.collapseActionView();
+                filters.setToolName(query);
+                new FindToolsAsyncTask().execute(filters);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
         return true;
     }
 
@@ -135,18 +156,6 @@ public class ListActivity extends AppCompatActivity implements NoticeDialogListe
     }
 
     @Override
-    public boolean onQueryTextChange(String newText) {
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextSubmit(String text) {
-
-        //new FindToolsAsyncTask().execute();
-        return false;
-    }
-
-    @Override
     public void onDialogPositiveClick(Dialog dialog) {
 
         if (dialog == mFilterToolsDialog) {
@@ -173,8 +182,6 @@ public class ListActivity extends AppCompatActivity implements NoticeDialogListe
 
         @Override
         protected List<? extends ITool> doInBackground(FilterListTools... params) {
-
-            FilterListTools filters = new FilterListTools();
 
             if (params != null && params.length > 0 && params[0] != null) {
                 filters = params[0];
