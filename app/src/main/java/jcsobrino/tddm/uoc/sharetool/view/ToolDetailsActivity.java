@@ -49,7 +49,7 @@ public class ToolDetailsActivity extends AppCompatActivity {
         Location currentLocation = LocationService.getCurrentLocation();
 
         if(currentLocation != null) {
-            mDistanceToolTextView.setText(String.format("%.2f km", UtilFunctions.calculateDistance(mTool.getPositionLat(), mTool.getPositionLng(), (float)currentLocation.getLatitude(), (float)currentLocation.getLongitude())));
+            mDistanceToolTextView.setText(String.format("%.2f km", UtilFunctions.calculateDistance(mTool)));
         }else {
             mDistanceToolTextView.setText("<Localización no disponible>");
         }
@@ -68,6 +68,8 @@ public class ToolDetailsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 */
+
+
     }
 
     @Override

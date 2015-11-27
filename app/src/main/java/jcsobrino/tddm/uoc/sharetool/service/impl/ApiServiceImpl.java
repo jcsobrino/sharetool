@@ -1,6 +1,7 @@
 package jcsobrino.tddm.uoc.sharetool.service.impl;
 
 import android.database.sqlite.SQLiteDatabase;
+import android.location.Location;
 import android.text.TextUtils;
 
 import com.activeandroid.ActiveAndroid;
@@ -32,14 +33,12 @@ public class ApiServiceImpl implements ApiService {
 
     public ApiServiceImpl() {
 
-        //SQLiteDatabase db = SQLiteDatabase.deleteDatabase("ShareTool.db");
         //populateDatabase();
     }
 
     private void populateDatabase() {
 
         int c = new Select().from(User.class).count();
-
 
         User user1 = new User("Nombre usuario 1", "1@1.com", "password1");
         user1.save();
@@ -94,9 +93,9 @@ public class ApiServiceImpl implements ApiService {
 
     @Override
     public IUser createUser(final String name, final String email, final String password) {
+        simulateDelay();
 
         User newUser = new User();
-
         newUser.setName(name);
         newUser.setEmail(email);
         newUser.setPassword(password);
@@ -127,18 +126,19 @@ public class ApiServiceImpl implements ApiService {
 
         if (lat != null && lng != null) {
 
+            float[] distance = new float[3];
             Iterator<Tool> it = listTools.iterator();
 
             while (it.hasNext()) {
 
                 Tool tool = it.next();
-                tool.setDistanceInKilometers(UtilFunctions.calculateDistance(tool.getPositionLat(),tool.getPositionLng(), lat, lng));
 
-                if (maxKilometers != null && tool.getDistanceInKilometers() > maxKilometers) {
+                tool.setDistanceInKilometers(UtilFunctions.calculateDistance(tool,lat,lng));
+
+                if(maxKilometers != null && tool.getDistanceInKilometers() > maxKilometers){
                     it.remove();
                 }
             }
-
         }
 
         if (toolOrder == ToolOrderEnum.NEAR_TOOL && lat != null && lng != null) {
@@ -166,7 +166,6 @@ public class ApiServiceImpl implements ApiService {
         simulateDelay();
         return new Select().from(User.class).where("id = ?", id).executeSingle();
     }
-
 
     private void simulateDelay() {
 

@@ -1,6 +1,7 @@
 package jcsobrino.tddm.uoc.sharetool.view;
 
 import android.content.Context;
+import android.location.Location;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,9 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import jcsobrino.tddm.uoc.sharetool.R;
+import jcsobrino.tddm.uoc.sharetool.common.LocationService;
+import jcsobrino.tddm.uoc.sharetool.common.UtilFunctions;
+import jcsobrino.tddm.uoc.sharetool.domain.Tool;
 import jcsobrino.tddm.uoc.sharetool.dto.ITool;
 
 /**
@@ -52,27 +56,15 @@ public class ToolArrayAdapter<T extends ITool> extends ArrayAdapter<T> {
         TextView pricePerDayTool = (TextView) listItemView.findViewById(R.id.pricePerDayToolListItem);
         ImageView imageTool = (ImageView) listItemView.findViewById(R.id.imageToolListItem);
 
-
         //Obteniendo instancia de la Tarea en la posición actual
         ITool tool = getItem(position);
 
         nameTool.setText(tool.getName());
-        distanceTool.setText(formatDistanceInKilometers(tool.getDistanceInKilometers()));
+        distanceTool.setText(tool.getDistanceInKilometers() == null ? "<Desconocido>" : String.format("%.2f km", tool.getDistanceInKilometers()));
         pricePerDayTool.setText(String.format("%.2f €", tool.getPricePerDay()));
         Picasso.with(mContext).load(String.format("http://lorempixel.com/600/300/?id=%s", tool.getId())).fit().into(imageTool);
 
-        //Devolver al ListView la fila creada
         return listItemView;
-
     }
 
-    private String formatDistanceInKilometers(final Float distanceInKilometers) {
-
-        if (distanceInKilometers == null) {
-            return "<Desconocido>";
-        }
-
-        return String.format("%.2f km", distanceInKilometers);
-
-    }
 }
