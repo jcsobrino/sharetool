@@ -1,5 +1,6 @@
 package jcsobrino.tddm.uoc.sharetool.view;
 
+import android.location.Location;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -9,7 +10,10 @@ import com.squareup.picasso.Picasso;
 
 import jcsobrino.tddm.uoc.sharetool.R;
 import jcsobrino.tddm.uoc.sharetool.common.IntentExtraInfoEnum;
+import jcsobrino.tddm.uoc.sharetool.common.LocationService;
+import jcsobrino.tddm.uoc.sharetool.common.UtilFunctions;
 import jcsobrino.tddm.uoc.sharetool.domain.Tool;
+import jcsobrino.tddm.uoc.sharetool.service.impl.ApiServiceImpl;
 
 public class ToolDetailsActivity extends AppCompatActivity {
 
@@ -42,7 +46,14 @@ public class ToolDetailsActivity extends AppCompatActivity {
 
         setTitle(mTool.getName());
 
-        mDistanceToolTextView.setText(mTool.getName());
+        Location currentLocation = LocationService.getCurrentLocation();
+
+        if(currentLocation != null) {
+            mDistanceToolTextView.setText(String.format("%.2f km", UtilFunctions.calculateDistance(mTool.getPositionLat(), mTool.getPositionLng(), (float)currentLocation.getLatitude(), (float)currentLocation.getLongitude())));
+        }else {
+            mDistanceToolTextView.setText("<Localización no disponible>");
+        }
+
         mDescriptionTextView.setText(mTool.getDescription());
         mPricePerDayTextView.setText(String.format("%.2f €", mTool.getPricePerDay()));
         mTotalPriceTextView.setText(mDays == null ? "<período de alquiler no indicado>" : String.format("%.2f €", mTool.getPricePerDay()*mDays));

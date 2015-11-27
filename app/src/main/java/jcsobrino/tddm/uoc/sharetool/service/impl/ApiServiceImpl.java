@@ -132,7 +132,7 @@ public class ApiServiceImpl implements ApiService {
             while (it.hasNext()) {
 
                 Tool tool = it.next();
-                tool.setDistanceInKilometers(calculateDistanceKilometers(tool, lat, lng));
+                tool.setDistanceInKilometers(UtilFunctions.calculateDistance(tool.getPositionLat(),tool.getPositionLng(), lat, lng));
 
                 if (maxKilometers != null && tool.getDistanceInKilometers() > maxKilometers) {
                     it.remove();
@@ -177,15 +177,4 @@ public class ApiServiceImpl implements ApiService {
         }
     }
 
-
-    private Float calculateDistanceKilometers(final Tool tool, final Float lat, final Float lng) {
-
-        Double factor = 57.29577951308232087679815481410517033235;
-        Double lat_rad = lat / factor;
-        Double lng_rad = lng / factor;
-        Double f_lat_rad = tool.getPositionLat() / factor;
-        Double f_lng_rad = tool.getPositionLng() / factor;
-
-        return new Float(6371 * Math.acos(Math.cos(f_lat_rad) * Math.cos(lat_rad) * Math.cos(lng_rad - f_lng_rad) + Math.sin(f_lat_rad) * Math.sin(lat_rad)));
-    }
 }
