@@ -72,8 +72,10 @@ public class ListActivity extends AppCompatActivity implements NoticeDialogListe
                 ITool selectedTool=  (ITool) parent.getAdapter().getItem(position);
                 Intent intent = new Intent(ListActivity.this, ToolDetailsActivity.class);
                 intent.putExtra(IntentExtraInfoEnum.TOOL.name(), selectedTool);
+                intent.putExtra(IntentExtraInfoEnum.TOOL_ID.name(), selectedTool.getId());
+                intent.putExtra(IntentExtraInfoEnum.TOOL_DAYS.name(), filters.getDays());
                 startActivity(intent);
-               
+                overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
             }
         });
 
@@ -95,9 +97,7 @@ public class ListActivity extends AppCompatActivity implements NoticeDialogListe
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-               // mSearchView.setIconified(true);
-               // mSearchView.clearFocus();
-                mSearchMenuItem.collapseActionView();
+                mSearchView.setIconified(true);
                 filters.setToolName(query);
                 new FindToolsAsyncTask().execute(filters);
                 return false;
@@ -105,6 +105,14 @@ public class ListActivity extends AppCompatActivity implements NoticeDialogListe
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+        mSearchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                filters.setToolName(null);
                 return false;
             }
         });

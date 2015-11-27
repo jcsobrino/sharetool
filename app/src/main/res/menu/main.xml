@@ -5,7 +5,7 @@
     <item
         android:id="@+id/location"
         android:icon="@android:drawable/ic_menu_mylocation"
-        android:orderInCategory="1"
+        android:orderInCategory="3"
         android:title="@+string/add"
         app:showAsAction="always" />
     <item
@@ -18,7 +18,7 @@
     <item
         android:id="@+id/filter"
         android:icon="@android:drawable/ic_menu_sort_by_size"
-        android:orderInCategory="3"
+        android:orderInCategory="1"
         android:title="@+string/add"
         app:showAsAction="always" />
 

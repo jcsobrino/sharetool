@@ -9,17 +9,19 @@ import com.squareup.picasso.Picasso;
 
 import jcsobrino.tddm.uoc.sharetool.R;
 import jcsobrino.tddm.uoc.sharetool.common.IntentExtraInfoEnum;
-import jcsobrino.tddm.uoc.sharetool.dto.ITool;
-import jcsobrino.tddm.uoc.sharetool.dto.IUser;
+import jcsobrino.tddm.uoc.sharetool.domain.Tool;
 
 public class ToolDetailsActivity extends AppCompatActivity {
 
-    private TextView mNameToolTextView;
+    private TextView mDistanceToolTextView;
+    private TextView mPricePerDayTextView;
     private TextView mTotalPriceTextView;
     private TextView mDescriptionTextView;
     private ImageView mImageToolImageView;
 
-    private ITool mTool;
+    private Tool mTool;
+    private Long mToolId;
+    private Integer mDays;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,16 +29,35 @@ public class ToolDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_tool_details);
 
         mImageToolImageView = (ImageView) findViewById(R.id.toolImageView);
-        mNameToolTextView = (TextView) findViewById(R.id.nameToolTextView);
-        mTotalPriceTextView = (TextView) findViewById(R.id.priceToolTextView);
-        mDescriptionTextView = (TextView) findViewById(R.id.descriptionToolTextView);
+        mDistanceToolTextView = (TextView) findViewById(R.id.distanceToolDataTextView);
+        mTotalPriceTextView = (TextView) findViewById(R.id.totalPriceToolDataTextView);
+        mPricePerDayTextView = (TextView) findViewById(R.id.pricePerDayToolDataTextView);
+        mDescriptionTextView = (TextView) findViewById(R.id.descriptionToolDataTextView);
 
-        mTool = (ITool) getIntent().getSerializableExtra(IntentExtraInfoEnum.TOOL.name());
+        mTool = (Tool) getIntent().getSerializableExtra(IntentExtraInfoEnum.TOOL.name());
+        mToolId = (Long) getIntent().getSerializableExtra(IntentExtraInfoEnum.TOOL_ID.name());
+        mDays = (Integer) getIntent().getSerializableExtra(IntentExtraInfoEnum.TOOL_DAYS.name());
 
-        Picasso.with(this).load(String.format("http://lorempixel.com/600/300/?id=%s", mTool.getId())).into(mImageToolImageView);
-        mNameToolTextView.setText(mTool.getName());
+        Picasso.with(this).load(String.format("http://lorempixel.com/600/300/?id=%s", mToolId)).fit().into(mImageToolImageView);
+
+        setTitle(mTool.getName());
+
+        mDistanceToolTextView.setText(mTool.getName());
         mDescriptionTextView.setText(mTool.getDescription());
-        mTotalPriceTextView.setText(mTool.getPricePerDay().toString());
-        //getActionBar().setDisplayHomeAsUpEnabled(true);
+        mPricePerDayTextView.setText(String.format("%.2f €", mTool.getPricePerDay()));
+        mTotalPriceTextView.setText(mDays == null ? "<período de alquiler no indicado>" : String.format("%.2f €", mTool.getPricePerDay()*mDays));
+
+
+/*
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+*/
+
+/*
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+*/
     }
+
+
 }

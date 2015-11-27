@@ -18,42 +18,134 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
-        android:id="@+id/nameToolTextView"
-        android:layout_below="@+id/toolImageView"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+        android:text="Distancia"
+        android:id="@+id/distanceToolTextView"
         android:layout_marginTop="19dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/toolImageView"
+        android:layout_alignLeft="@+id/view"
+        android:layout_alignStart="@+id/view" />
+
+     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        android:text="Medium Text"
+        android:id="@+id/distanceToolDataTextView"
+        android:layout_below="@+id/distanceToolTextView"
+        android:layout_alignLeft="@+id/distanceToolTextView"
+        android:layout_alignStart="@+id/distanceToolTextView" />
+
+    <View
+        android:layout_height="1dp"
+        android:layout_width="match_parent"
+        android:background="#d7d7d7"
+        android:id="@+id/view"
+        android:layout_below="@+id/distanceToolDataTextView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp" />
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="5dp" />
+
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+        android:text="Precio por día"
+        android:id="@+id/pricePerDayToolTextView"
+        android:layout_below="@+id/view"
+        android:layout_alignLeft="@+id/view"
+        android:layout_alignStart="@+id/view" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        android:text="Medium Text"
+        android:id="@+id/pricePerDayToolDataTextView"
+        android:layout_below="@+id/pricePerDayToolTextView"
+        android:layout_alignLeft="@+id/pricePerDayToolTextView"
+        android:layout_alignStart="@+id/pricePerDayToolTextView" />
+
+    <View
+        android:layout_height="1dp"
+        android:layout_width="match_parent"
+        android:background="#d7d7d7"
+        android:id="@+id/view2"
+        android:layout_below="@+id/pricePerDayToolDataTextView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="5dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        android:text="Medium Text"
+        android:id="@+id/totalPriceToolDataTextView"
+        android:layout_below="@+id/totalPriceToolTextView"
+        android:layout_alignLeft="@+id/totalPriceToolTextView"
+        android:layout_alignStart="@+id/totalPriceToolTextView" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
         android:text="Precio total"
-        android:id="@+id/priceToolTextView"
-        android:layout_below="@+id/nameToolTextView"
-        android:layout_alignLeft="@+id/nameToolTextView"
-        android:layout_alignStart="@+id/nameToolTextView"
-        android:layout_marginTop="31dp" />
+        android:id="@+id/totalPriceToolTextView"
+        android:layout_below="@+id/view2"
+        android:layout_alignLeft="@+id/view2"
+        android:layout_alignStart="@+id/view2" />
+
+    <View
+        android:layout_height="1dp"
+        android:layout_width="match_parent"
+        android:background="#d7d7d7"
+        android:id="@+id/view3"
+        android:layout_below="@+id/totalPriceToolDataTextView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="5dp" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Alquilar herramienta"
+        android:id="@+id/button"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+        android:text="Descripción"
         android:id="@+id/descriptionToolTextView"
-        android:layout_below="@+id/priceToolTextView"
-        android:layout_marginTop="42dp"
-        android:maxLines="5"
-        android:minLines="3"
-        android:layout_alignLeft="@+id/priceToolTextView"
-        android:layout_alignStart="@+id/priceToolTextView"
-        android:layout_alignRight="@+id/nameToolTextView"
-        android:layout_alignEnd="@+id/nameToolTextView" />
+        android:layout_below="@+id/view3"
+        android:layout_alignLeft="@+id/view3"
+        android:layout_alignStart="@+id/view3" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        android:text="Medium Text"
+        android:id="@+id/descriptionToolDataTextView"
+        android:layout_below="@+id/descriptionToolTextView"
+        android:layout_alignRight="@+id/view3"
+        android:layout_alignEnd="@+id/view3"
+        android:layout_alignLeft="@+id/descriptionToolTextView"
+        android:layout_alignStart="@+id/descriptionToolTextView" />
+
 
 </RelativeLayout>
