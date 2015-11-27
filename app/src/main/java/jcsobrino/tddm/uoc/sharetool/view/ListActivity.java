@@ -69,18 +69,18 @@ public class ListActivity extends AppCompatActivity implements NoticeDialogListe
         mToolsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ITool selectedTool=  (ITool) parent.getAdapter().getItem(position);
+                ITool selectedTool = (ITool) parent.getAdapter().getItem(position);
                 Intent intent = new Intent(ListActivity.this, ToolDetailsActivity.class);
                 intent.putExtra(IntentExtraInfoEnum.TOOL.name(), selectedTool);
                 intent.putExtra(IntentExtraInfoEnum.TOOL_ID.name(), selectedTool.getId());
                 intent.putExtra(IntentExtraInfoEnum.TOOL_DAYS.name(), filters.getDays());
-                startActivity(intent);
-                overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                startActivityForResult(intent, 0);
+                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
             }
         });
 
         //Toast.makeText(getApplicationContext(), String.format("Bienvenido, %s", mLoggedUser.getName()), Toast.LENGTH_LONG).show();
-         new FindToolsAsyncTask().execute(filters);
+        new FindToolsAsyncTask().execute(filters);
     }
 
     @Override

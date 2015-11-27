@@ -56,9 +56,9 @@ public class ToolDetailsActivity extends AppCompatActivity {
 
         mDescriptionTextView.setText(mTool.getDescription());
         mPricePerDayTextView.setText(String.format("%.2f €", mTool.getPricePerDay()));
-        mTotalPriceTextView.setText(mDays == null ? "<período de alquiler no indicado>" : String.format("%.2f €", mTool.getPricePerDay()*mDays));
+        mTotalPriceTextView.setText(mDays == null ? "<período de alquiler no indicado>" : String.format("%.2f €", mTool.getPricePerDay() * mDays));
 
-
+        //overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right);
 /*
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -68,6 +68,12 @@ public class ToolDetailsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 */
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right);
     }
 
 
