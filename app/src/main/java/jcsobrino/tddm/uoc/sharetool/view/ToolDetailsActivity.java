@@ -1,10 +1,17 @@
 package jcsobrino.tddm.uoc.sharetool.view;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.location.Location;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -22,6 +29,7 @@ public class ToolDetailsActivity extends AppCompatActivity {
     private TextView mTotalPriceTextView;
     private TextView mDescriptionTextView;
     private ImageView mImageToolImageView;
+    private Button mRentToolButton;
 
     private Tool mTool;
     private Long mToolId;
@@ -37,6 +45,14 @@ public class ToolDetailsActivity extends AppCompatActivity {
         mTotalPriceTextView = (TextView) findViewById(R.id.totalPriceToolDataTextView);
         mPricePerDayTextView = (TextView) findViewById(R.id.pricePerDayToolDataTextView);
         mDescriptionTextView = (TextView) findViewById(R.id.descriptionToolDataTextView);
+        mRentToolButton = (Button) findViewById(R.id.rentToolButton);
+
+        mRentToolButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createRentToolDialogConfirm();
+            }
+        });
 
         mTool = (Tool) getIntent().getSerializableExtra(IntentExtraInfoEnum.TOOL.name());
         mToolId = (Long) getIntent().getSerializableExtra(IntentExtraInfoEnum.TOOL_ID.name());
@@ -48,32 +64,54 @@ public class ToolDetailsActivity extends AppCompatActivity {
 
         Location currentLocation = LocationService.getCurrentLocation();
 
-        if(currentLocation != null) {
+        if (currentLocation != null) {
             mDistanceToolTextView.setText(String.format("%.2f km", UtilFunctions.calculateDistance(mTool)));
-        }else {
+        } else {
             mDistanceToolTextView.setText("<Localización no disponible>");
         }
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mDescriptionTextView.setText(mTool.getDescription());
         mPricePerDayTextView.setText(String.format("%.2f €", mTool.getPricePerDay()));
         mTotalPriceTextView.setText(mDays == null ? "<período de alquiler no indicado>" : String.format("%.2f €", mTool.getPricePerDay() * mDays));
+    }
 
-        //overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right);
-/*
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-*/
-
-/*
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-*/
-
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                goBackParentActivity();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
     public void onBackPressed() {
+        goBackParentActivity();
+    }
+
+    private void createRentToolDialogConfirm() {
+        new AlertDialog.Builder(this)
+                .setTitle("Alquiler herramienta")
+                .setMessage("¿Desea alquilar la herramienta seleccionada?")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        goBackParentActivity();
+                        Toast.makeText(getApplicationContext(), String.format("Has alquilado la herramienta %s", mTool.getName()), Toast.LENGTH_LONG).show();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+
+    }
+
+    private void goBackParentActivity() {
         finish();
         overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right);
     }

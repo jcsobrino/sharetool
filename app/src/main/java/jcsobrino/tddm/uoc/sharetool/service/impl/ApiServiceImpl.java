@@ -33,7 +33,7 @@ public class ApiServiceImpl implements ApiService {
 
     public ApiServiceImpl() {
 
-        //populateDatabase();
+        populateDatabase();
     }
 
     private void populateDatabase() {
@@ -47,7 +47,7 @@ public class ApiServiceImpl implements ApiService {
 
         List<User> listUsers = Arrays.asList(user1, user2);
 
-        float priceMin = 50.0f;
+        float priceMin = 1.0f;
         float priceMax = 100.0f;
 
         float latMax = 41.476175f;
@@ -59,14 +59,14 @@ public class ApiServiceImpl implements ApiService {
 
         ActiveAndroid.beginTransaction();
         try {
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 50; i++) {
 
                 float pricePerDay = random.nextFloat() * (priceMax - priceMin) + priceMin;
                 float lat = random.nextFloat() * (latMax - latMin) + latMin;
                 float lng = random.nextFloat() * (lngMax - lngMin) + lngMin;
 
                 User userTool = listUsers.get(random.nextInt(listUsers.size()));
-                Tool tool = new Tool("Tool name " + i, "Tool description " + i, pricePerDay, userTool, lat, lng);
+                Tool tool = new Tool("Tool name " + i, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec et odio id libero condimentum dapibus non non neque. Sed congue auctor nibh, eget congue arcu vehicula in. Suspendisse potenti. Integer ac neque est. Donec sit amet aliquam nisl, vitae convallis leo. Vivamus vitae neque libero. Sed sodales hendrerit massa, eget dictum nibh molestie at.", pricePerDay, userTool, lat, lng);
                 tool.save();
             }
 
@@ -150,7 +150,6 @@ public class ApiServiceImpl implements ApiService {
                 }
             });
         }
-
 
         return listTools;
     }

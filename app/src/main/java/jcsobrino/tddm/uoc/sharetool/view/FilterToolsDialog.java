@@ -11,14 +11,12 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.logging.Filter;
 
 import jcsobrino.tddm.uoc.sharetool.R;
 import jcsobrino.tddm.uoc.sharetool.common.ToolOrderEnum;
@@ -39,7 +37,6 @@ public class FilterToolsDialog extends AlertDialog {
     private final CheckBox dateDaysCheckBox;
     private final RadioButton nearerToolsFirstOrder;
     private final RadioButton cheaperToolsFirstOrder;
-    private final RadioGroup orderRadioGroup;
     private final SeekBar distanceSeekBar;
     private final EditText dateEditText;
     private final EditText daysEditText;
@@ -63,7 +60,6 @@ public class FilterToolsDialog extends AlertDialog {
 
         nearerToolsFirstOrder = (RadioButton) v.findViewById(R.id.cercanos);
         cheaperToolsFirstOrder = (RadioButton) v.findViewById(R.id.baratos);
-        orderRadioGroup = (RadioGroup) v.findViewById(R.id.orderRadioGroup);
 
         distanceSeekBar = (SeekBar) v.findViewById(R.id.distanciaSeekBar);
         distanceTextView = (TextView) v.findViewById(R.id.distanceTextView);

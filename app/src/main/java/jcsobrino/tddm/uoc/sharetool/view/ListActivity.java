@@ -73,7 +73,9 @@ public class ListActivity extends AppCompatActivity implements NoticeDialogListe
                 Intent intent = new Intent(ListActivity.this, ToolDetailsActivity.class);
                 intent.putExtra(IntentExtraInfoEnum.TOOL.name(), selectedTool);
                 intent.putExtra(IntentExtraInfoEnum.TOOL_ID.name(), selectedTool.getId());
-                intent.putExtra(IntentExtraInfoEnum.TOOL_DAYS.name(), filters.getDays());
+                if(filters.getDateDaysFilter()) {
+                    intent.putExtra(IntentExtraInfoEnum.TOOL_DAYS.name(), filters.getDays());
+                }
                 startActivityForResult(intent, 0);
                 overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
             }
@@ -127,7 +129,7 @@ public class ListActivity extends AppCompatActivity implements NoticeDialogListe
             case R.id.location:
                 mCurrentLocation = LocationService.getCurrentLocation();
                 if (mCurrentLocation != null) {
-                    Toast.makeText(getApplicationContext(), String.format("Lat: %f, Lng: %f", mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude()), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), String.format("Lat: %.3f, Lng: %.3f", mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude()), Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "La localización no está disponible", Toast.LENGTH_LONG).show();
                 }

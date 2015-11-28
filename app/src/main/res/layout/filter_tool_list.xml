@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/orderRadioGroup"
-        android:layout_below="@+id/textView"
+        android:layout_below="@+id/orderTitleTextView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="false"
         android:layout_marginLeft="16dp"
@@ -15,7 +15,7 @@
         android:layout_alignEnd="@+id/fechaCheckBox"
         android:layout_alignParentRight="true"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="18dp">
+        android:layout_marginTop="10dp">
 
         <RadioButton
             android:layout_width="match_parent"
@@ -23,7 +23,6 @@
             android:text="Herramientas MÁS BARATAS primero"
             android:id="@+id/baratos"
             android:layout_below="@+id/editText"
-            android:layout_marginTop="28dp"
             android:layout_alignRight="@+id/cercanos"
             android:layout_alignEnd="@+id/cercanos"
             android:layout_x="67dp"
@@ -49,13 +48,10 @@
         android:layout_height="wrap_content"
         android:text="Precio máximo"
         android:id="@+id/precioTextView"
-        android:layout_alignParentTop="false"
-        android:layout_alignLeft="@+id/orderRadioGroup"
-        android:layout_alignStart="@+id/orderRadioGroup"
-        android:layout_marginTop="18dp"
-        android:layout_below="@+id/textView2"
-        android:layout_alignRight="@+id/precioCheckBox"
-        android:layout_alignEnd="@+id/precioCheckBox" />
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/filtersTitleTextView"
+        android:layout_alignLeft="@+id/filtersTitleTextView"
+        android:layout_alignStart="@+id/filtersTitleTextView" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -63,7 +59,6 @@
         android:inputType="numberDecimal"
         android:ems="10"
         android:id="@+id/precioEditText"
-        android:text="10,0"
         android:layout_below="@+id/precioTextView"
         android:layout_alignLeft="@+id/precioTextView"
         android:layout_alignStart="@+id/precioTextView" />
@@ -83,12 +78,10 @@
         android:layout_height="wrap_content"
         android:text="Distancia máxima"
         android:id="@+id/distanciaTextView"
-        android:layout_marginTop="18dp"
         android:layout_below="@+id/precioEditText"
         android:layout_alignLeft="@+id/precioEditText"
         android:layout_alignStart="@+id/precioEditText"
-        android:layout_alignRight="@+id/distanciaCheckBox"
-        android:layout_alignEnd="@+id/distanciaCheckBox" />
+        android:layout_marginTop="10dp" />
 
     <CheckBox
         android:layout_width="wrap_content"
@@ -103,7 +96,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/distanciaSeekBar"
-        android:layout_marginTop="19dp"
+        android:layout_marginTop="10dp"
         android:layout_below="@+id/distanciaTextView"
         android:layout_alignLeft="@+id/distanciaTextView"
         android:layout_alignStart="@+id/distanciaTextView"
@@ -116,12 +109,10 @@
         android:layout_height="wrap_content"
         android:text="Fecha inicial y días"
         android:id="@+id/fechaTextView"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="10dp"
         android:layout_below="@+id/distanciaSeekBar"
         android:layout_alignLeft="@+id/distanciaSeekBar"
-        android:layout_alignStart="@+id/distanciaSeekBar"
-        android:layout_alignRight="@+id/fechaCheckBox"
-        android:layout_alignEnd="@+id/fechaCheckBox" />
+        android:layout_alignRight="@+id/fechaCheckBox" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -129,10 +120,10 @@
         android:inputType="number"
         android:ems="10"
         android:id="@+id/diasEditText"
-        android:text="10,0"
         android:layout_below="@+id/fechaTextView"
         android:layout_toLeftOf="@+id/fechaCheckBox"
-        android:layout_toRightOf="@+id/fechaEditText" />
+        android:layout_toRightOf="@+id/fechaEditText"
+        android:password="false" />
 
     <CheckBox
         android:layout_width="wrap_content"
@@ -149,34 +140,34 @@
         android:inputType="date"
         android:ems="10"
         android:id="@+id/fechaEditText"
-        android:text="11/11/2011"
-        android:layout_alignBottom="@+id/diasEditText"
-        android:layout_alignEnd="@+id/distanciaSeekBar" />
+        android:hint="dd/MM/yyyy"
+        android:layout_above="@+id/orderTitleTextView"
+        android:layout_alignLeft="@+id/fechaTextView"
+        android:layout_alignStart="@+id/fechaTextView"
+        android:layout_toLeftOf="@+id/distanceTextView"
+        android:layout_toStartOf="@+id/distanceTextView" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Ordenación"
-        android:id="@+id/textView"
+        android:id="@+id/orderTitleTextView"
         android:layout_below="@+id/diasEditText"
         android:layout_alignLeft="@+id/orderRadioGroup"
         android:layout_alignStart="@+id/orderRadioGroup"
         android:layout_marginTop="18dp"
-        android:layout_alignRight="@+id/fechaCheckBox"
-        android:layout_alignEnd="@+id/fechaCheckBox" />
+        android:layout_alignRight="@+id/fechaCheckBox" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Filtros"
-        android:id="@+id/textView2"
+        android:id="@+id/filtersTitleTextView"
         android:layout_alignParentTop="true"
-        android:layout_alignLeft="@+id/precioTextView"
-        android:layout_alignStart="@+id/precioTextView"
-        android:layout_alignRight="@+id/precioCheckBox"
-        android:layout_alignEnd="@+id/precioCheckBox" />
+        android:layout_alignLeft="@+id/orderTitleTextView"
+        android:layout_alignStart="@+id/orderTitleTextView" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -184,6 +175,7 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:id="@+id/distanceTextView"
         android:layout_alignBottom="@+id/distanciaCheckBox"
+        android:layout_toLeftOf="@+id/distanciaCheckBox"
         android:layout_toRightOf="@+id/distanciaSeekBar"
         android:layout_toEndOf="@+id/distanciaSeekBar" />
 
