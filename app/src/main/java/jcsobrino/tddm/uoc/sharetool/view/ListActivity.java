@@ -157,6 +157,10 @@ public class ListActivity extends AppCompatActivity implements NoticeDialogListe
     }
 
     @Override
+    public void onBackPressed() {
+    }
+
+    @Override
     public void onDialogPositiveClick(Dialog dialog) {
 
         if (dialog == mFilterToolsDialog) {
