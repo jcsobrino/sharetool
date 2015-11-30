@@ -19,10 +19,52 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+        android:text="Usuario"
+        android:id="@+id/userToolTextView"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/toolImageView"
+        android:layout_alignLeft="@+id/view"
+        android:layout_alignStart="@+id/view" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        android:text="Medium Text"
+        android:id="@+id/userToolDataTextView"
+        android:layout_below="@+id/userToolTextView"
+        android:layout_alignLeft="@+id/userToolTextView"
+        android:layout_alignStart="@+id/userToolTextView" />
+
+    <View
+        android:layout_height="1dp"
+        android:layout_width="match_parent"
+        android:background="#d7d7d7"
+        android:id="@+id/separator"
+        android:layout_below="@+id/userToolDataTextView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="5dp" />
+
+
+
+
+
+
+
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
         android:text="Distancia"
         android:id="@+id/distanceToolTextView"
-        android:layout_marginTop="19dp"
-        android:layout_below="@+id/toolImageView"
+        android:layout_below="@+id/separator"
         android:layout_alignLeft="@+id/view"
         android:layout_alignStart="@+id/view" />
 

@@ -20,6 +20,7 @@ import java.text.SimpleDateFormat;
 
 import jcsobrino.tddm.uoc.sharetool.R;
 import jcsobrino.tddm.uoc.sharetool.common.ToolOrderEnum;
+import jcsobrino.tddm.uoc.sharetool.common.UtilFunctions;
 import jcsobrino.tddm.uoc.sharetool.view.form.FilterListTools;
 
 /**
@@ -200,25 +201,25 @@ public class FilterToolsDialog extends AlertDialog {
 
         if(dateDaysCheckBox.isChecked()) {
 
-            if(TextUtils.isEmpty(daysEditText.getText())){
+            if(UtilFunctions.isEmpty(daysEditText.getText())){
 
                 daysEditText.setError(getContext().getString(R.string.error_field_required));
                 daysEditText.requestFocus();
                 result = false;
             }
 
-            if(TextUtils.isEmpty(dateEditText.getText())){
+            if(UtilFunctions.isEmpty(dateEditText.getText())){
 
                 dateEditText.setError(getContext().getString(R.string.error_field_required));
                 dateEditText.requestFocus();
                 result = false;
             }
 
-            if (!TextUtils.isEmpty(dateEditText.getText())) {
+            if (!UtilFunctions.isEmpty(dateEditText.getText())) {
                 try {
                     sdf.parse(dateEditText.getText().toString());
                 } catch (ParseException pe) {
-                    dateEditText.setError("Formato incorrecto: dd/MM/yyyy");
+                    dateEditText.setError(getContext().getString(R.string.format_error));
                     dateEditText.requestFocus();
                     result = false;
                 }
@@ -227,7 +228,7 @@ public class FilterToolsDialog extends AlertDialog {
 
         if(priceCheckBox.isChecked()) {
 
-            if (TextUtils.isEmpty(priceEditText.getText())) {
+            if (UtilFunctions.isEmpty(priceEditText.getText())) {
 
                 priceEditText.setError(getContext().getString(R.string.error_field_required));
                 priceEditText.requestFocus();
@@ -235,7 +236,7 @@ public class FilterToolsDialog extends AlertDialog {
 
             } else if (priceEditText.getText().equals(".")) {
 
-                priceEditText.setError("El valor no es correcto");
+                priceEditText.setError(getContext().getString(R.string.format_error));
                 priceEditText.requestFocus();
                 result = false;
 

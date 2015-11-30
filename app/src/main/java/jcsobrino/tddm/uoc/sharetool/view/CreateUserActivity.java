@@ -12,6 +12,7 @@ import org.w3c.dom.Text;
 
 import jcsobrino.tddm.uoc.sharetool.R;
 import jcsobrino.tddm.uoc.sharetool.common.ApiFactory;
+import jcsobrino.tddm.uoc.sharetool.common.UtilFunctions;
 import jcsobrino.tddm.uoc.sharetool.service.ApiService;
 
 public class CreateUserActivity extends AppCompatActivity {
@@ -48,10 +49,10 @@ public class CreateUserActivity extends AppCompatActivity {
 
                     try {
                         mAPI.createUser(username, email, password);
-                        Toast.makeText(getApplicationContext(), "El usuario ha sido registrado", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), R.string.user_created, Toast.LENGTH_LONG).show();
                         finish();
                     } catch (RuntimeException re) {
-                        Toast.makeText(getApplicationContext(), "Se ha producido un error durante la creación del usuario", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), R.string.error_creating_user, Toast.LENGTH_LONG).show();
                     }
                 }
             }
@@ -70,45 +71,45 @@ public class CreateUserActivity extends AppCompatActivity {
 
         boolean result = true;
 
-        if (TextUtils.isEmpty(mRepeatPassword.getText())) {
+        if (UtilFunctions.isEmpty(mRepeatPassword.getText())) {
 
             mRepeatPassword.setError(getString(R.string.error_field_required));
             mRepeatPassword.requestFocus();
             result = false;
         }
 
-        if (TextUtils.isEmpty(mPassword.getText())) {
+        if (UtilFunctions.isEmpty(mPassword.getText())) {
 
             mPassword.setError(getString(R.string.error_field_required));
             mPassword.requestFocus();
             result = false;
         }
 
-        if (!TextUtils.isEmpty(mPassword.getText()) && !TextUtils.isEmpty(mRepeatPassword.getText()) && !mPassword.getText().toString().equals(mRepeatPassword.getText().toString())) {
+        if (!UtilFunctions.isEmpty(mPassword.getText()) && !UtilFunctions.isEmpty(mRepeatPassword.getText()) && !mPassword.getText().toString().equals(mRepeatPassword.getText().toString())) {
 
-            mRepeatPassword.setError("Los passwords son diferentes");
+            mRepeatPassword.setError(getString(R.string.password_mismatch));
             mRepeatPassword.requestFocus();
             result = false;
         }
 
-        if (TextUtils.isEmpty(mEmail.getText())) {
+        if (UtilFunctions.isEmpty(mEmail.getText())) {
 
             mEmail.setError(getString(R.string.error_field_required));
             mEmail.requestFocus();
             result = false;
         } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(mEmail.getText()).matches()) {
 
-            mEmail.setError("El e-mail es incorrecto");
+            mEmail.setError(getString(R.string.format_error));
             mEmail.requestFocus();
             result = false;
         } else if (mAPI.userExistsByEmail(mEmail.getText().toString())) {
 
-            mEmail.setError("E-mail ya existente");
+            mEmail.setError(getString(R.string.repeat_email));
             mEmail.requestFocus();
             result = false;
         }
 
-        if (TextUtils.isEmpty(mUsername.getText())) {
+        if (UtilFunctions.isEmpty(mUsername.getText())) {
 
             mUsername.setError(getString(R.string.error_field_required));
             mUsername.requestFocus();

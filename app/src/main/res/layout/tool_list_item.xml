@@ -9,7 +9,7 @@
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:background="#f21c1c" />
+        android:background="#cccccc" />
 
     <TextView
         android:id="@+id/nameToolListItem"
@@ -17,11 +17,13 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@id/imageToolListItem"
-        android:layout_margin="10px"
         android:text="Tool name"
         android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
 
-        />
+        android:textSize="15dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="3dp" />
 
     <TextView
         android:id="@+id/distanceToolListItem"
@@ -31,7 +33,8 @@
         android:layout_alignStart="@+id/nameToolListItem"
         android:layout_below="@+id/nameToolListItem"
         android:text="Distance"
-        android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Subtitle" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Subtitle"
+        android:textSize="12dp" />
 
     <TextView
         android:id="@+id/pricePerDayToolListItem"
@@ -41,6 +44,7 @@
         android:textAppearance="@style/Base.TextAppearance.AppCompat.SearchResult.Subtitle"
         android:layout_alignTop="@+id/distanceToolListItem"
         android:layout_alignRight="@+id/nameToolListItem"
-        android:layout_alignEnd="@+id/nameToolListItem" />
+        android:layout_alignEnd="@+id/nameToolListItem"
+        android:textSize="12dp" />
 
 </RelativeLayout>

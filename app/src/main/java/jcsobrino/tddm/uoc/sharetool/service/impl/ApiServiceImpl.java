@@ -1,7 +1,5 @@
 package jcsobrino.tddm.uoc.sharetool.service.impl;
 
-import android.database.sqlite.SQLiteDatabase;
-import android.location.Location;
 import android.text.TextUtils;
 
 import com.activeandroid.ActiveAndroid;
@@ -28,8 +26,10 @@ import jcsobrino.tddm.uoc.sharetool.service.ApiService;
  */
 public class ApiServiceImpl implements ApiService {
 
+    // tiempo de simulación de retardo en las llamadas a la API
     private static final Integer MIN_DELAY_MILLISECONDS = 1000;
     private static final Integer MAX_DELAY_MILLISECONDS = 2000;
+
 
     public ApiServiceImpl() {
 
@@ -38,46 +38,68 @@ public class ApiServiceImpl implements ApiService {
 
     private void populateDatabase() {
 
-        int c = new Select().from(User.class).count();
+        // parámetros para la generación de datos de prueba
+        final int MAX_TOOLS = 50;
+        final float PRICE_MIN = 1.0f;
+        final float PRICE_MAX = 100.0f;
+        final float LAT_MAX = 41.476175f;
+        final float LAT_MIN = 41.311855f;
+        final float LNG_MAX = 2.278976f;
+        final float LNG_MIN = 2.021141f;
 
-        User user1 = new User("Nombre usuario 1", "1@1.com", "password1");
+        final String[] toolNames = {
+                "Taladro Percutor 500W",
+                "Mini sierra circular",
+                "Cepillo de carpintero",
+                "Maletín de herramientas neumáticas",
+                "Mesa de trabajo para taller bricolaje",
+                "Taladro sin cable, cabezal extraíble",
+                "Juego de llaves hexagonales",
+                "Pie de cabra 340mm",
+                "Banco de trabajo plegable",
+                "Crimpadora (24,1 cm)",
+                "Medidor láser/detector",
+                "Sierra circular, 1200 W, 185 mm",
+                "Atornillador angular de 90°",
+                "Pinzas de bricolaje",
+                "Kit de puntas y brocas para bricolaje",
+                "Fresas de muelle",
+                "Juego de brocas de impacto",
+                "Amoladora angular",
+                "Taladradora de percusión",
+                "Sierra de calar de carrera pendular",
+                "Pistola de pegar",
+                "Atornillador a batería de litio",
+                "Aspirador en seco-húmedo",
+                "Taladro inalámbrico, 12 V",
+                "Sierra de vaivén con maletín",
+                "Afiladora doble, 150 W",
+                "Martillo perforador, 36 V"};
+
+        final String descriptionTool = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec et odio id libero condimentum dapibus non non neque. Sed congue auctor nibh, eget congue arcu vehicula in. Suspendisse potenti. Integer ac neque est. Donec sit amet aliquam nisl, vitae convallis leo. Vivamus vitae neque libero. Sed sodales hendrerit massa, eget dictum nibh molestie at.";
+
+        //alta usuarios de prueba
+        User user1 = new User("Wayne Holmes", "wholmes@host.com", "password1");
         user1.save();
-        User user2 = new User("Nombre usuario 2", "2@2.com", "password2");
+        User user2 = new User("Tammy Harris", "tharris@host.com", "password2");
         user2.save();
+        User user3 = new User("Mario Brady", "mbrady@host.com", "password3");
+        user3.save();
 
-        List<User> listUsers = Arrays.asList(user1, user2);
-
-        float priceMin = 1.0f;
-        float priceMax = 100.0f;
-
-        float latMax = 41.476175f;
-        float latMin = 41.311855f;
-        float lngMax = 2.278976f;
-        float lngMin = 2.021141f;
+        List<User> listUsers = Arrays.asList(user1, user2, user3);
 
         Random random = new Random();
 
-        ActiveAndroid.beginTransaction();
-        try {
-            for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < MAX_TOOLS; i++) {
 
-                float pricePerDay = random.nextFloat() * (priceMax - priceMin) + priceMin;
-                float lat = random.nextFloat() * (latMax - latMin) + latMin;
-                float lng = random.nextFloat() * (lngMax - lngMin) + lngMin;
+            float pricePerDay = UtilFunctions.randomBetween(PRICE_MIN, PRICE_MAX);
+            float lat = UtilFunctions.randomBetween(LAT_MIN, LAT_MAX);
+            float lng = UtilFunctions.randomBetween(LNG_MIN, LNG_MAX);
 
-                User userTool = listUsers.get(random.nextInt(listUsers.size()));
-                Tool tool = new Tool("Tool name " + i, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec et odio id libero condimentum dapibus non non neque. Sed congue auctor nibh, eget congue arcu vehicula in. Suspendisse potenti. Integer ac neque est. Donec sit amet aliquam nisl, vitae convallis leo. Vivamus vitae neque libero. Sed sodales hendrerit massa, eget dictum nibh molestie at.", pricePerDay, userTool, lat, lng);
-                tool.save();
-            }
-
-            ActiveAndroid.setTransactionSuccessful();
-        } finally {
-            ActiveAndroid.endTransaction();
+            User userTool = listUsers.get(random.nextInt(listUsers.size()));
+            Tool tool = new Tool(toolNames[i % toolNames.length], descriptionTool, pricePerDay, userTool, lat, lng);
+            tool.save();
         }
-
-        int count = new Select().from(Tool.class).count();
-
-        count++;
     }
 
     @Override
@@ -133,9 +155,9 @@ public class ApiServiceImpl implements ApiService {
 
                 Tool tool = it.next();
 
-                tool.setDistanceInKilometers(UtilFunctions.calculateDistance(tool,lat,lng));
+                tool.setDistanceInKilometers(UtilFunctions.calculateDistance(tool, lat, lng));
 
-                if(maxKilometers != null && tool.getDistanceInKilometers() > maxKilometers){
+                if (maxKilometers != null && tool.getDistanceInKilometers() > maxKilometers) {
                     it.remove();
                 }
             }

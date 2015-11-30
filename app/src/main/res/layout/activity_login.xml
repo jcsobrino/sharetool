@@ -11,12 +11,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/emailLoginEditText"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentTop="false"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:hint="E-mail"
         android:inputType="textEmailAddress"
-        android:layout_marginTop="30dp" />
+        android:layout_marginTop="40dp"
+        android:layout_below="@+id/titleLoginTextView" />
 
     <EditText
         android:layout_width="match_parent"
@@ -46,5 +47,28 @@
         android:id="@+id/createUserLoginTextView"
         android:layout_below="@+id/passwordLoginEditText"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:textIsSelectable="false" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Introduzca su nombre de usuario y clave de acceso"
+        android:id="@+id/titleLoginTextView"
+        android:textAlignment="center"
+        android:layout_marginTop="80dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/ic_login" />
 </RelativeLayout>

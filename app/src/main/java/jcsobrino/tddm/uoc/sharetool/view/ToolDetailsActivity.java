@@ -29,6 +29,7 @@ public class ToolDetailsActivity extends AppCompatActivity {
     private TextView mTotalPriceTextView;
     private TextView mDescriptionTextView;
     private ImageView mImageToolImageView;
+    private TextView mUserToolTextView;
     private Button mRentToolButton;
 
     private Tool mTool;
@@ -40,6 +41,7 @@ public class ToolDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tool_details);
 
+        mUserToolTextView = (TextView) findViewById(R.id.userToolDataTextView);
         mImageToolImageView = (ImageView) findViewById(R.id.toolImageView);
         mDistanceToolTextView = (TextView) findViewById(R.id.distanceToolDataTextView);
         mTotalPriceTextView = (TextView) findViewById(R.id.totalPriceToolDataTextView);
@@ -58,7 +60,7 @@ public class ToolDetailsActivity extends AppCompatActivity {
         mToolId = (Long) getIntent().getSerializableExtra(IntentExtraInfoEnum.TOOL_ID.name());
         mDays = (Integer) getIntent().getSerializableExtra(IntentExtraInfoEnum.TOOL_DAYS.name());
 
-        Picasso.with(this).load(String.format("http://lorempixel.com/600/300/?id=%s", mToolId)).fit().into(mImageToolImageView);
+        Picasso.with(this).load(UtilFunctions.getImagePlaceholder(mToolId)).fit().into(mImageToolImageView);
 
         setTitle(mTool.getName());
 
@@ -70,6 +72,7 @@ public class ToolDetailsActivity extends AppCompatActivity {
             mDistanceToolTextView.setText("<Localización no disponible>");
         }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mUserToolTextView.setText(mTool.getUser().getName());
         mDescriptionTextView.setText(mTool.getDescription());
         mPricePerDayTextView.setText(String.format("%.2f €", mTool.getPricePerDay()));
         mTotalPriceTextView.setText(mDays == null ? "<período de alquiler no indicado>" : String.format("%.2f €", mTool.getPricePerDay() * mDays));
@@ -93,8 +96,8 @@ public class ToolDetailsActivity extends AppCompatActivity {
 
     private void createRentToolDialogConfirm() {
         new AlertDialog.Builder(this)
-                .setTitle("Alquiler herramienta")
-                .setMessage("¿Desea alquilar la herramienta seleccionada?")
+                .setTitle(R.string.rent_tool_title)
+                .setMessage(R.string.rent_tool_confirm)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         goBackParentActivity();

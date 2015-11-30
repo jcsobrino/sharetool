@@ -73,7 +73,7 @@ public class ListActivity extends AppCompatActivity implements NoticeDialogListe
                 Intent intent = new Intent(ListActivity.this, ToolDetailsActivity.class);
                 intent.putExtra(IntentExtraInfoEnum.TOOL.name(), selectedTool);
                 intent.putExtra(IntentExtraInfoEnum.TOOL_ID.name(), selectedTool.getId());
-                if(filters.getDateDaysFilter()) {
+                if (filters.getDateDaysFilter()) {
                     intent.putExtra(IntentExtraInfoEnum.TOOL_DAYS.name(), filters.getDays());
                 }
                 startActivityForResult(intent, 0);
@@ -81,7 +81,7 @@ public class ListActivity extends AppCompatActivity implements NoticeDialogListe
             }
         });
 
-        //Toast.makeText(getApplicationContext(), String.format("Bienvenido, %s", mLoggedUser.getName()), Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), String.format(getString(R.string.welcome_user), mLoggedUser.getName()), Toast.LENGTH_LONG).show();
         new FindToolsAsyncTask().execute(filters);
     }
 
@@ -131,7 +131,7 @@ public class ListActivity extends AppCompatActivity implements NoticeDialogListe
                 if (mCurrentLocation != null) {
                     Toast.makeText(getApplicationContext(), String.format("Lat: %.3f, Lng: %.3f", mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude()), Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(getApplicationContext(), "La localización no está disponible", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), R.string.no_available_location, Toast.LENGTH_LONG).show();
                 }
                 return true;
             case R.id.filter:
@@ -181,7 +181,7 @@ public class ListActivity extends AppCompatActivity implements NoticeDialogListe
 
         @Override
         protected void onPreExecute() {
-            progressDialog = ProgressDialog.show(ListActivity.this, "Cargando", "Espere mientras se cargan las herramientas..", true, true);
+            progressDialog = ProgressDialog.show(ListActivity.this, getString(R.string.loading), getString(R.string.wating_loading_tools), true, true);
             mToolsListArraysAdapter.clear();
         }
 

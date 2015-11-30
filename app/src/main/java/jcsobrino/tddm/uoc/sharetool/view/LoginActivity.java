@@ -17,6 +17,7 @@ import java.util.List;
 import jcsobrino.tddm.uoc.sharetool.R;
 import jcsobrino.tddm.uoc.sharetool.common.ApiFactory;
 import jcsobrino.tddm.uoc.sharetool.common.IntentExtraInfoEnum;
+import jcsobrino.tddm.uoc.sharetool.common.UtilFunctions;
 import jcsobrino.tddm.uoc.sharetool.dto.ITool;
 import jcsobrino.tddm.uoc.sharetool.dto.IUser;
 import jcsobrino.tddm.uoc.sharetool.service.ApiService;
@@ -35,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        //deleteDatabase("ShareTool.db");
+        deleteDatabase("ShareTool.db");
 
         mEmail = (EditText) findViewById(R.id.emailLoginEditText);
         mPassword = (EditText) findViewById(R.id.passwordLoginEditText);
@@ -69,14 +70,14 @@ public class LoginActivity extends AppCompatActivity {
 
         boolean result = true;
 
-        if (TextUtils.isEmpty(mPassword.getText())) {
+        if (UtilFunctions.isEmpty(mPassword.getText())){
 
             mPassword.setError(getString(R.string.error_field_required));
             mPassword.requestFocus();
             result = false;
         }
 
-        if (TextUtils.isEmpty(mEmail.getText())) {
+        if (UtilFunctions.isEmpty(mEmail.getText())) {
 
             mEmail.setError(getString(R.string.error_field_required));
             mEmail.requestFocus();
@@ -93,7 +94,7 @@ public class LoginActivity extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-            progressDialog = ProgressDialog.show(LoginActivity.this, "Cargando", "Espere mientras se ejecuta la acción..", true, true);
+            progressDialog = ProgressDialog.show(LoginActivity.this, getString(R.string.loading), getString(R.string.waiting_executing_action), true, true);
         }
 
         @Override
@@ -111,7 +112,7 @@ public class LoginActivity extends AppCompatActivity {
             progressDialog.dismiss();
 
             if (result == null) {
-                Toast.makeText(getApplicationContext(), "El usuario o el password no son correctos", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), R.string.login_or_password_no_match, Toast.LENGTH_LONG).show();
             } else {
 
                 Intent intent = new Intent(LoginActivity.this, ListActivity.class);
