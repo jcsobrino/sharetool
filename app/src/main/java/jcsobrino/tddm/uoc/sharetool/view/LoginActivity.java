@@ -24,7 +24,7 @@ import jcsobrino.tddm.uoc.sharetool.service.ApiService;
 
 public class LoginActivity extends AppCompatActivity {
 
-     private ApiService mAPI = ApiFactory.INSTANCE.getApi();
+    private ApiService mAPI = ApiFactory.INSTANCE.getApi();
     private EditText mEmail;
     private EditText mPassword;
     private TextView mCreateUser;
@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        deleteDatabase("ShareTool.db");
+         deleteDatabase("ShareTool.db");
 
         mEmail = (EditText) findViewById(R.id.emailLoginEditText);
         mPassword = (EditText) findViewById(R.id.passwordLoginEditText);
@@ -59,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (validateFields()) {
 
-                    new LoginAsyncTask().execute(mEmail.getText().toString(),mPassword.getText().toString());
+                    new LoginAsyncTask().execute(mEmail.getText().toString(), mPassword.getText().toString());
                 }
             }
         });
@@ -70,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
 
         boolean result = true;
 
-        if (UtilFunctions.isEmpty(mPassword.getText())){
+        if (UtilFunctions.isEmpty(mPassword.getText())) {
 
             mPassword.setError(getString(R.string.error_field_required));
             mPassword.requestFocus();
@@ -87,7 +87,10 @@ public class LoginActivity extends AppCompatActivity {
         return result;
     }
 
-
+    @Override
+    public void onBackPressed() {
+    }
+    
     private class LoginAsyncTask extends AsyncTask<String, Void, IUser> {
 
         ProgressDialog progressDialog;

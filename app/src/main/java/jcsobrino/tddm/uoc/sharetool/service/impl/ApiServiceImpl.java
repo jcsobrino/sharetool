@@ -30,7 +30,6 @@ public class ApiServiceImpl implements ApiService {
     private static final Integer MIN_DELAY_MILLISECONDS = 1000;
     private static final Integer MAX_DELAY_MILLISECONDS = 2000;
 
-
     public ApiServiceImpl() {
 
         populateDatabase();
