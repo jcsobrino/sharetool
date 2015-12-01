@@ -1,5 +1,6 @@
 package jcsobrino.tddm.uoc.sharetool.view;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -83,6 +84,16 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         return result;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (resultCode == Activity.RESULT_OK) {
+            String emailNewUser = data.getStringExtra(IntentExtraInfoEnum.USER_CREATED_EMAIL.name());
+            mEmail.setText(emailNewUser);
+            mPassword.setText("");
+        }
     }
 
     @Override

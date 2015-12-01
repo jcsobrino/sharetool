@@ -99,13 +99,13 @@ public class ToolDetailsActivity extends AppCompatActivity {
         new AlertDialog.Builder(this)
                 .setTitle(R.string.rent_tool_title)
                 .setMessage(R.string.rent_tool_confirm)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.accept, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         goBackParentActivity();
                         Toast.makeText(getApplicationContext(), String.format(getString(R.string.rent_tool_message), mTool.getName()), Toast.LENGTH_LONG).show();
                     }
                 })
-                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
 
                     }

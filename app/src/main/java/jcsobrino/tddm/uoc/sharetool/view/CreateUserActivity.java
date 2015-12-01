@@ -1,5 +1,7 @@
 package jcsobrino.tddm.uoc.sharetool.view;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -12,6 +14,7 @@ import org.w3c.dom.Text;
 
 import jcsobrino.tddm.uoc.sharetool.R;
 import jcsobrino.tddm.uoc.sharetool.common.ApiFactory;
+import jcsobrino.tddm.uoc.sharetool.common.IntentExtraInfoEnum;
 import jcsobrino.tddm.uoc.sharetool.common.UtilFunctions;
 import jcsobrino.tddm.uoc.sharetool.service.ApiService;
 
@@ -51,9 +54,14 @@ public final class CreateUserActivity extends AppCompatActivity {
                     String password = mPassword.getText().toString();
 
                     try {
+
                         mAPI.createUser(username, email, password);
+                        Intent returnIntent = new Intent();
+                        returnIntent.putExtra(IntentExtraInfoEnum.USER_CREATED_EMAIL.name(), email);
+                        setResult(Activity.RESULT_OK, returnIntent);
                         Toast.makeText(getApplicationContext(), R.string.user_created, Toast.LENGTH_LONG).show();
                         finish();
+
                     } catch (RuntimeException re) {
                         Toast.makeText(getApplicationContext(), R.string.error_creating_user, Toast.LENGTH_LONG).show();
                     }

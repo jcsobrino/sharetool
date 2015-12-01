@@ -76,12 +76,12 @@ public final class FilterToolsDialog extends AlertDialog {
         mDaysEditText.setEnabled(false);
         mPriceEditText.setEnabled(false);
 
-        mDistanceTextView.setText(String.format(context.getString(R.string.distance_kilometers), 0));
+        mDistanceTextView.setText(String.format(context.getString(R.string.seekbar_distance_kilometers), 0));
         
         mDistanceSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                mDistanceTextView.setText(String.format(FilterToolsDialog.this.getContext().getString(R.string.distance_kilometers), progress));
+                mDistanceTextView.setText(String.format(FilterToolsDialog.this.getContext().getString(R.string.seekbar_distance_kilometers), progress));
             }
 
             @Override

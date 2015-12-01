@@ -58,7 +58,7 @@ public class ToolArrayAdapter<T extends ITool> extends ArrayAdapter<T> {
         ITool tool = getItem(position);
 
         nameTool.setText(tool.getName());
-        distanceTool.setText(tool.getDistanceInKilometers() == null ? "<Desconocido>" : String.format("%.2f km", tool.getDistanceInKilometers()));
+        distanceTool.setText(tool.getDistanceInKilometers() == null ? mContext.getString(R.string.distance_unknown) : String.format(mContext.getString(R.string.distance_kilometers), tool.getDistanceInKilometers()));
         pricePerDayTool.setText(String.format("%.2f €", tool.getPricePerDay()));
         Picasso.with(mContext).load(UtilFunctions.getImagePlaceholder(tool.getId())).fit().into(imageTool);
 

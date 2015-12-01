@@ -6,5 +6,5 @@ package jcsobrino.tddm.uoc.sharetool.common;
  */
 public enum IntentExtraInfoEnum{
 
-    LOGGED_USER, SELECTED_TOOL, SELECTED_TOOL_ID, SELECTED_FILTER_RENT_DAYS;
+    LOGGED_USER, SELECTED_TOOL, SELECTED_TOOL_ID, SELECTED_FILTER_RENT_DAYS, USER_CREATED_EMAIL;
 }
