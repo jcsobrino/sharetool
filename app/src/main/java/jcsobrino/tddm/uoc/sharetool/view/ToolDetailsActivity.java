@@ -2,7 +2,6 @@ package jcsobrino.tddm.uoc.sharetool.view;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.location.Location;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,9 +18,11 @@ import jcsobrino.tddm.uoc.sharetool.R;
 import jcsobrino.tddm.uoc.sharetool.common.IntentExtraInfoEnum;
 import jcsobrino.tddm.uoc.sharetool.common.LocationService;
 import jcsobrino.tddm.uoc.sharetool.common.UtilFunctions;
-import jcsobrino.tddm.uoc.sharetool.domain.Tool;
-import jcsobrino.tddm.uoc.sharetool.service.impl.ApiServiceImpl;
+import jcsobrino.tddm.uoc.sharetool.domain.impl.Tool;
 
+/**
+ * Panel de detalle de una herramienta. Se muestra posterior a la selección en el listado de herramientas
+ */
 public class ToolDetailsActivity extends AppCompatActivity {
 
     private TextView mDistanceToolTextView;
@@ -56,9 +57,9 @@ public class ToolDetailsActivity extends AppCompatActivity {
             }
         });
 
-        mTool = (Tool) getIntent().getSerializableExtra(IntentExtraInfoEnum.TOOL.name());
-        mToolId = (Long) getIntent().getSerializableExtra(IntentExtraInfoEnum.TOOL_ID.name());
-        mDays = (Integer) getIntent().getSerializableExtra(IntentExtraInfoEnum.TOOL_DAYS.name());
+        mTool = (Tool) getIntent().getSerializableExtra(IntentExtraInfoEnum.SELECTED_TOOL.name());
+        mToolId = (Long) getIntent().getSerializableExtra(IntentExtraInfoEnum.SELECTED_TOOL_ID.name());
+        mDays = (Integer) getIntent().getSerializableExtra(IntentExtraInfoEnum.SELECTED_FILTER_RENT_DAYS.name());
 
         Picasso.with(this).load(UtilFunctions.getImagePlaceholder(mToolId)).fit().into(mImageToolImageView);
 
@@ -67,15 +68,15 @@ public class ToolDetailsActivity extends AppCompatActivity {
         Location currentLocation = LocationService.getCurrentLocation();
 
         if (currentLocation != null) {
-            mDistanceToolTextView.setText(String.format("%.2f km", UtilFunctions.calculateDistance(mTool)));
+            mDistanceToolTextView.setText(String.format(getString(R.string.distance_kilometers), UtilFunctions.calculateDistance(mTool)));
         } else {
-            mDistanceToolTextView.setText("<Localización no disponible>");
+            mDistanceToolTextView.setText(getString(R.string.no_available_location));
         }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mUserToolTextView.setText(mTool.getUser().getName());
         mDescriptionTextView.setText(mTool.getDescription());
         mPricePerDayTextView.setText(String.format("%.2f €", mTool.getPricePerDay()));
-        mTotalPriceTextView.setText(mDays == null ? "<período de alquiler no indicado>" : String.format("%.2f €", mTool.getPricePerDay() * mDays));
+        mTotalPriceTextView.setText(mDays == null ? getString(R.string.no_available_rent_data) : String.format("%.2f €", mTool.getPricePerDay() * mDays));
     }
 
     @Override
@@ -101,7 +102,7 @@ public class ToolDetailsActivity extends AppCompatActivity {
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         goBackParentActivity();
-                        Toast.makeText(getApplicationContext(), String.format("Has alquilado la herramienta %s", mTool.getName()), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), String.format(getString(R.string.rent_tool_message), mTool.getName()), Toast.LENGTH_LONG).show();
                     }
                 })
                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {

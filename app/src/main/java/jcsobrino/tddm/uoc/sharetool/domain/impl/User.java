@@ -1,12 +1,13 @@
-package jcsobrino.tddm.uoc.sharetool.domain;
+package jcsobrino.tddm.uoc.sharetool.domain.impl;
 
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 
-import jcsobrino.tddm.uoc.sharetool.dto.IUser;
+import jcsobrino.tddm.uoc.sharetool.domain.IUser;
 
 /**
+ * Implementación de la interfaz IUser para SQLite
  * Created by JoséCarlos on 13/11/2015.
  */
 @Table(name = "Users")

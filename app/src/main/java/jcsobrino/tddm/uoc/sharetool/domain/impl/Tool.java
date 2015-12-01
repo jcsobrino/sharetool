@@ -1,13 +1,14 @@
 
-package jcsobrino.tddm.uoc.sharetool.domain;
+package jcsobrino.tddm.uoc.sharetool.domain.impl;
 
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 
-import jcsobrino.tddm.uoc.sharetool.dto.ITool;
+import jcsobrino.tddm.uoc.sharetool.domain.ITool;
 
 /**
+ * Implementación de la interfaz ITool para SQLite
  * Created by JoséCarlos on 13/11/2015.
  */
 @Table(name = "Tools")

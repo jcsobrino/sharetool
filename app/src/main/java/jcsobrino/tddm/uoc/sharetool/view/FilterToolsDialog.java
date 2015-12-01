@@ -16,7 +16,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 import jcsobrino.tddm.uoc.sharetool.R;
 import jcsobrino.tddm.uoc.sharetool.common.ToolOrderEnum;
@@ -24,25 +23,28 @@ import jcsobrino.tddm.uoc.sharetool.common.UtilFunctions;
 import jcsobrino.tddm.uoc.sharetool.view.form.FilterListTools;
 
 /**
+ * Representa el diálogo desde donde el usuario filtra u ordena el listado de herramientas
  * Created by JoséCarlos on 22/11/2015.
  */
-public class FilterToolsDialog extends AlertDialog {
+public final class FilterToolsDialog extends AlertDialog {
 
-    private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+    // contiene los valores de filtros y ordenación seleccionados
     private FilterListTools filterListTools = new FilterListTools();
-
+    
+    // permite notificar cambios en los filtros
     private NoticeDialogListener mListener;
-
-    private final CheckBox distanceCheckBox;
-    private final CheckBox priceCheckBox;
-    private final CheckBox dateDaysCheckBox;
-    private final RadioButton nearerToolsFirstOrder;
-    private final RadioButton cheaperToolsFirstOrder;
-    private final SeekBar distanceSeekBar;
-    private final EditText dateEditText;
-    private final EditText daysEditText;
-    private final EditText priceEditText;
-    private final TextView distanceTextView;
+    
+    // elementos de UI 
+    private final CheckBox mDistanceCheckBox;
+    private final CheckBox mPriceCheckBox;
+    private final CheckBox mDateDaysCheckBox;
+    private final RadioButton mNearerToolsFirstOrder;
+    private final RadioButton mCheaperToolsFirstOrder;
+    private final SeekBar mDistanceSeekBar;
+    private final EditText mDateEditText;
+    private final EditText mDaysEditText;
+    private final EditText mPriceEditText;
+    private final TextView mDistanceTextView;
 
     public FilterToolsDialog(Context context, final NoticeDialogListener listener) {
         super(context);
@@ -53,32 +55,33 @@ public class FilterToolsDialog extends AlertDialog {
 
         mListener = listener;
 
-        sdf.setLenient(true);
+        UtilFunctions.DATE_FORMAT.setLenient(true);
 
-        distanceCheckBox = (CheckBox) v.findViewById(R.id.distanciaCheckBox);
-        priceCheckBox = (CheckBox) v.findViewById(R.id.precioCheckBox);
-        dateDaysCheckBox = (CheckBox) v.findViewById(R.id.fechaCheckBox);
+        mDistanceCheckBox = (CheckBox) v.findViewById(R.id.distanciaCheckBox);
+        mPriceCheckBox = (CheckBox) v.findViewById(R.id.precioCheckBox);
+        mDateDaysCheckBox = (CheckBox) v.findViewById(R.id.fechaCheckBox);
 
-        nearerToolsFirstOrder = (RadioButton) v.findViewById(R.id.cercanos);
-        cheaperToolsFirstOrder = (RadioButton) v.findViewById(R.id.baratos);
+        mNearerToolsFirstOrder = (RadioButton) v.findViewById(R.id.cercanos);
+        mCheaperToolsFirstOrder = (RadioButton) v.findViewById(R.id.baratos);
 
-        distanceSeekBar = (SeekBar) v.findViewById(R.id.distanciaSeekBar);
-        distanceTextView = (TextView) v.findViewById(R.id.distanceTextView);
-        dateEditText = (EditText) v.findViewById(R.id.fechaEditText);
-        daysEditText = (EditText) v.findViewById(R.id.diasEditText);
-        priceEditText = (EditText) v.findViewById(R.id.precioEditText);
+        mDistanceSeekBar = (SeekBar) v.findViewById(R.id.distanciaSeekBar);
+        mDistanceTextView = (TextView) v.findViewById(R.id.distanceTextView);
+        mDateEditText = (EditText) v.findViewById(R.id.fechaEditText);
+        mDaysEditText = (EditText) v.findViewById(R.id.diasEditText);
+        mPriceEditText = (EditText) v.findViewById(R.id.precioEditText);
 
-        distanceSeekBar.setEnabled(false);
-        distanceTextView.setEnabled(false);
-        dateEditText.setEnabled(false);
-        daysEditText.setEnabled(false);
-        priceEditText.setEnabled(false);
+        mDistanceSeekBar.setEnabled(false);
+        mDistanceTextView.setEnabled(false);
+        mDateEditText.setEnabled(false);
+        mDaysEditText.setEnabled(false);
+        mPriceEditText.setEnabled(false);
 
-
-        distanceSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        mDistanceTextView.setText(String.format(context.getString(R.string.distance_kilometers), 0));
+        
+        mDistanceSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                distanceTextView.setText(String.format("%d kms", progress));
+                mDistanceTextView.setText(String.format(FilterToolsDialog.this.getContext().getString(R.string.distance_kilometers), progress));
             }
 
             @Override
@@ -92,30 +95,30 @@ public class FilterToolsDialog extends AlertDialog {
             }
         });
 
-        distanceCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        mDistanceCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                distanceSeekBar.setEnabled(isChecked);
-                distanceTextView.setEnabled(isChecked);
+                mDistanceSeekBar.setEnabled(isChecked);
+                mDistanceTextView.setEnabled(isChecked);
             }
         });
 
-        dateDaysCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        mDateDaysCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                dateEditText.setEnabled(isChecked);
-                daysEditText.setEnabled(isChecked);
+                mDateEditText.setEnabled(isChecked);
+                mDaysEditText.setEnabled(isChecked);
             }
         });
 
-        priceCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        mPriceCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                priceEditText.setEnabled(isChecked);
+                mPriceEditText.setEnabled(isChecked);
             }
         });
 
-        setButton(BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
+        setButton(BUTTON_POSITIVE, context.getString(R.string.accept), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
             }
@@ -145,7 +148,7 @@ public class FilterToolsDialog extends AlertDialog {
         });
 
 
-        setButton(BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {
+        setButton(BUTTON_NEGATIVE, context.getString(R.string.cancel), new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -163,34 +166,34 @@ public class FilterToolsDialog extends AlertDialog {
 
     private void copyFilterValuesFromBeanToUI() {
 
-        distanceCheckBox.setChecked(filterListTools.getDistanceFilter());
-        priceCheckBox.setChecked(filterListTools.getPriceFilter());
-        dateDaysCheckBox.setChecked(filterListTools.getDateDaysFilter());
+        mDistanceCheckBox.setChecked(filterListTools.getDistanceFilter());
+        mPriceCheckBox.setChecked(filterListTools.getPriceFilter());
+        mDateDaysCheckBox.setChecked(filterListTools.getDateDaysFilter());
 
-        nearerToolsFirstOrder.setChecked(filterListTools.getToolOrderEnum() == ToolOrderEnum.NEAR_TOOL);
-        cheaperToolsFirstOrder.setChecked(filterListTools.getToolOrderEnum() == ToolOrderEnum.MIN_PRICE);
+        mNearerToolsFirstOrder.setChecked(filterListTools.getToolOrderEnum() == ToolOrderEnum.NEAR_TOOL);
+        mCheaperToolsFirstOrder.setChecked(filterListTools.getToolOrderEnum() == ToolOrderEnum.MIN_PRICE);
 
-        distanceSeekBar.setProgress(filterListTools.getMaxDistance() != null ? filterListTools.getMaxDistance().intValue() : 0);
-        dateEditText.setText(filterListTools.getDate() != null ? sdf.format(filterListTools.getDate()) : null);
-        daysEditText.setText(filterListTools.getDays() != null ? filterListTools.getDays().toString() : null);
-        priceEditText.setText(filterListTools.getMaxPrice() != null ? filterListTools.getMaxPrice().toString() : null);
+        mDistanceSeekBar.setProgress(filterListTools.getMaxDistance() != null ? filterListTools.getMaxDistance().intValue() : 0);
+        mDateEditText.setText(filterListTools.getDate() != null ? UtilFunctions.DATE_FORMAT.format(filterListTools.getDate()) : null);
+        mDaysEditText.setText(filterListTools.getDays() != null ? filterListTools.getDays().toString() : null);
+        mPriceEditText.setText(filterListTools.getMaxPrice() != null ? filterListTools.getMaxPrice().toString() : null);
     }
 
     private void copyFilterValuesFromUIToBean() {
 
-        filterListTools.setDistanceFilter(distanceCheckBox.isChecked());
-        filterListTools.setPriceFilter(priceCheckBox.isChecked());
-        filterListTools.setDateDaysFilter(dateDaysCheckBox.isChecked());
+        filterListTools.setDistanceFilter(mDistanceCheckBox.isChecked());
+        filterListTools.setPriceFilter(mPriceCheckBox.isChecked());
+        filterListTools.setDateDaysFilter(mDateDaysCheckBox.isChecked());
 
-        filterListTools.setToolOrderEnum(nearerToolsFirstOrder.isChecked() ? ToolOrderEnum.NEAR_TOOL : ToolOrderEnum.MIN_PRICE);
+        filterListTools.setToolOrderEnum(mNearerToolsFirstOrder.isChecked() ? ToolOrderEnum.NEAR_TOOL : ToolOrderEnum.MIN_PRICE);
 
-        filterListTools.setMaxDistance((float) distanceSeekBar.getProgress());
-        filterListTools.setMaxPrice(TextUtils.isEmpty(priceEditText.getText()) ? null : Float.parseFloat(priceEditText.getText().toString()));
-        filterListTools.setDays(TextUtils.isEmpty(daysEditText.getText()) ? null : Integer.parseInt(daysEditText.getText().toString()));
+        filterListTools.setMaxDistance((float) mDistanceSeekBar.getProgress());
+        filterListTools.setMaxPrice(TextUtils.isEmpty(mPriceEditText.getText()) ? null : Float.parseFloat(mPriceEditText.getText().toString()));
+        filterListTools.setDays(TextUtils.isEmpty(mDaysEditText.getText()) ? null : Integer.parseInt(mDaysEditText.getText().toString()));
         try {
-            filterListTools.setDate(TextUtils.isEmpty(dateEditText.getText()) ? null : sdf.parse(dateEditText.getText().toString()));
+            filterListTools.setDate(TextUtils.isEmpty(mDateEditText.getText()) ? null : UtilFunctions.DATE_FORMAT.parse(mDateEditText.getText().toString()));
         } catch (ParseException pe) {
-            Toast.makeText(getContext(), String.format("Error parsing date %s", dateEditText.getText()), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), String.format("Error parsing date %s", mDateEditText.getText()), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -199,45 +202,45 @@ public class FilterToolsDialog extends AlertDialog {
 
         boolean result = true;
 
-        if(dateDaysCheckBox.isChecked()) {
+        if (mDateDaysCheckBox.isChecked()) {
 
-            if(UtilFunctions.isEmpty(daysEditText.getText())){
+            if (UtilFunctions.isEmpty(mDaysEditText.getText())) {
 
-                daysEditText.setError(getContext().getString(R.string.error_field_required));
-                daysEditText.requestFocus();
+                mDaysEditText.setError(getContext().getString(R.string.error_field_required));
+                mDaysEditText.requestFocus();
                 result = false;
             }
 
-            if(UtilFunctions.isEmpty(dateEditText.getText())){
+            if (UtilFunctions.isEmpty(mDateEditText.getText())) {
 
-                dateEditText.setError(getContext().getString(R.string.error_field_required));
-                dateEditText.requestFocus();
+                mDateEditText.setError(getContext().getString(R.string.error_field_required));
+                mDateEditText.requestFocus();
                 result = false;
             }
 
-            if (!UtilFunctions.isEmpty(dateEditText.getText())) {
+            if (!UtilFunctions.isEmpty(mDateEditText.getText())) {
                 try {
-                    sdf.parse(dateEditText.getText().toString());
+                    UtilFunctions.DATE_FORMAT.parse(mDateEditText.getText().toString());
                 } catch (ParseException pe) {
-                    dateEditText.setError(getContext().getString(R.string.format_error));
-                    dateEditText.requestFocus();
+                    mDateEditText.setError(getContext().getString(R.string.format_error));
+                    mDateEditText.requestFocus();
                     result = false;
                 }
             }
         }
 
-        if(priceCheckBox.isChecked()) {
+        if (mPriceCheckBox.isChecked()) {
 
-            if (UtilFunctions.isEmpty(priceEditText.getText())) {
+            if (UtilFunctions.isEmpty(mPriceEditText.getText())) {
 
-                priceEditText.setError(getContext().getString(R.string.error_field_required));
-                priceEditText.requestFocus();
+                mPriceEditText.setError(getContext().getString(R.string.error_field_required));
+                mPriceEditText.requestFocus();
                 result = false;
 
-            } else if (priceEditText.getText().equals(".")) {
+            } else if (mPriceEditText.getText().equals(".")) {
 
-                priceEditText.setError(getContext().getString(R.string.format_error));
-                priceEditText.requestFocus();
+                mPriceEditText.setError(getContext().getString(R.string.format_error));
+                mPriceEditText.requestFocus();
                 result = false;
 
             }

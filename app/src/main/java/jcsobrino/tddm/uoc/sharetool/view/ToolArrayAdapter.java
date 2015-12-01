@@ -1,7 +1,6 @@
 package jcsobrino.tddm.uoc.sharetool.view;
 
 import android.content.Context;
-import android.location.Location;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +13,11 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import jcsobrino.tddm.uoc.sharetool.R;
-import jcsobrino.tddm.uoc.sharetool.common.LocationService;
 import jcsobrino.tddm.uoc.sharetool.common.UtilFunctions;
-import jcsobrino.tddm.uoc.sharetool.domain.Tool;
-import jcsobrino.tddm.uoc.sharetool.dto.ITool;
+import jcsobrino.tddm.uoc.sharetool.domain.ITool;
 
 /**
+ * Adaptador para el listado de herramientas que se muestra en ListToolsActivity
  * Created by JoséCarlos on 14/11/2015.
  */
 public class ToolArrayAdapter<T extends ITool> extends ArrayAdapter<T> {

@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 
 
 /**
+ * Servicio que mantiene la localización geográfica del dispositivo físico
  * Created by JoséCarlos on 23/11/2015.
  */
 public class LocationService extends Service implements LocationListener {

@@ -4,16 +4,18 @@ import android.location.Location;
 import android.text.Editable;
 import android.text.TextUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.Random;
 
-import jcsobrino.tddm.uoc.sharetool.domain.Tool;
-import jcsobrino.tddm.uoc.sharetool.dto.ITool;
+import jcsobrino.tddm.uoc.sharetool.domain.ITool;
 
 /**
+ * Clase de utilidades con funciones comunes
  * Created by JoséCarlos on 18/11/2015.
  */
 public final class UtilFunctions {
 
+    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
     private static final Random RANDOM = new Random();
     private static final String IMAGE_GENERATOR_URL = "http://lorempixel.com/600/300/?id=%s";
 

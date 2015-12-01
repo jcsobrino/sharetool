@@ -1,6 +1,7 @@
 package jcsobrino.tddm.uoc.sharetool.common;
 
 /**
+ * Ordenaciones permitidas para el listado de herramientas
  * Created by JoséCarlos on 13/11/2015.
  */
 public enum ToolOrderEnum {

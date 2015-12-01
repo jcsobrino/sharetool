@@ -5,23 +5,22 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.List;
-
 import jcsobrino.tddm.uoc.sharetool.R;
 import jcsobrino.tddm.uoc.sharetool.common.ApiFactory;
 import jcsobrino.tddm.uoc.sharetool.common.IntentExtraInfoEnum;
 import jcsobrino.tddm.uoc.sharetool.common.UtilFunctions;
-import jcsobrino.tddm.uoc.sharetool.dto.ITool;
-import jcsobrino.tddm.uoc.sharetool.dto.IUser;
+import jcsobrino.tddm.uoc.sharetool.domain.IUser;
 import jcsobrino.tddm.uoc.sharetool.service.ApiService;
 
+/**
+ * Activity para el inicio de sesión en el sistema
+ */
 public class LoginActivity extends AppCompatActivity {
 
     private ApiService mAPI = ApiFactory.INSTANCE.getApi();
@@ -30,13 +29,12 @@ public class LoginActivity extends AppCompatActivity {
     private TextView mCreateUser;
     private Button mLoginButton;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-         deleteDatabase("ShareTool.db");
+        deleteDatabase("ShareTool.db");
 
         mEmail = (EditText) findViewById(R.id.emailLoginEditText);
         mPassword = (EditText) findViewById(R.id.passwordLoginEditText);
@@ -90,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
     }
-    
+
     private class LoginAsyncTask extends AsyncTask<String, Void, IUser> {
 
         ProgressDialog progressDialog;
@@ -118,7 +116,7 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), R.string.login_or_password_no_match, Toast.LENGTH_LONG).show();
             } else {
 
-                Intent intent = new Intent(LoginActivity.this, ListActivity.class);
+                Intent intent = new Intent(LoginActivity.this, ListToolsActivity.class);
                 intent.putExtra(IntentExtraInfoEnum.LOGGED_USER.name(), result);
                 startActivity(intent);
             }

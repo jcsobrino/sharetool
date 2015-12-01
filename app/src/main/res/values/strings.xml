@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">ShareTool</string>
     <string name="error_field_required">Este campo es obligatorio</string>
-    <string name="search_hint">es mi hint</string>
+    <string name="search_hint">nombre herramienta</string>
     <string name="password_mismatch">Los passwords son diferentes</string>
     <string name="format_error">El formato del campo no es válido</string>
     <string name="repeat_email">E-mail ya existente</string>
@@ -15,4 +15,9 @@
     <string name="wating_loading_tools">Espere mientras se cargan las herramientas...</string>
     <string name="welcome_user">Bienvenido, %s</string>
     <string name="waiting_executing_action">Espere mientras se ejecuta la acción..</string>
+    <string name="distance_kilometers">%d km</string>
+    <string name="accept">Aceptar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="no_available_rent_data">Período de alquiler no indicado</string>
+    <string name="rent_tool_message">Has alquilado la herramienta %s</string>
 </resources>

@@ -4,10 +4,13 @@ package jcsobrino.tddm.uoc.sharetool.service;
 import java.util.List;
 
 import jcsobrino.tddm.uoc.sharetool.common.ToolOrderEnum;
-import jcsobrino.tddm.uoc.sharetool.dto.ITool;
-import jcsobrino.tddm.uoc.sharetool.dto.IUser;
+import jcsobrino.tddm.uoc.sharetool.domain.ITool;
+import jcsobrino.tddm.uoc.sharetool.domain.IUser;
 
 /**
+ * Interfaz con las funciones necesarias para gestionar las herramientas y usuarios de la aplicación
+ * La fuente proveedora de la informacion de dominio debe implementar esta interfaz y añadir dicha
+ * implementación a la clase ApiFactory
  * Created by JoséCarlos on 13/11/2015.
  */
 public interface ApiService {

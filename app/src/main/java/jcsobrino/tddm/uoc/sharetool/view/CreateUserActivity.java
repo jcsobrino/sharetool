@@ -15,7 +15,10 @@ import jcsobrino.tddm.uoc.sharetool.common.ApiFactory;
 import jcsobrino.tddm.uoc.sharetool.common.UtilFunctions;
 import jcsobrino.tddm.uoc.sharetool.service.ApiService;
 
-public class CreateUserActivity extends AppCompatActivity {
+/**
+ * Activity para el alta de un nuevo usuario en el sistema
+ */
+public final class CreateUserActivity extends AppCompatActivity {
 
     private ApiService mAPI = ApiFactory.INSTANCE.getApi();
     private EditText mUsername;

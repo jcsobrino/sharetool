@@ -1,19 +1,18 @@
-package jcsobrino.tddm.uoc.sharetool.dto;
+package jcsobrino.tddm.uoc.sharetool.domain;
 
 
 import java.io.Serializable;
 
-import jcsobrino.tddm.uoc.sharetool.domain.User;
+import jcsobrino.tddm.uoc.sharetool.domain.impl.User;
 
 /**
+ * Interfaz que representa una Herramienta en el dominio de la aplicación
+ * La fuente proveedora deberá implementar esta interfaz para representar esta entidad
  * Created by JoséCarlos on 13/11/2015.
  */
 public interface ITool extends Serializable{
 
-
     Long getId();
-
-   // void setId(Integer id);
 
     String getName();
 

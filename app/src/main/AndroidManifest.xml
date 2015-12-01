@@ -31,7 +31,7 @@
             android:name="AA_MODELS"
             android:value="jcsobrino.tddm.uoc.sharetool.domain.User, jcsobrino.tddm.uoc.sharetool.domain.Tool" />
 
-        <activity android:name=".view.ListActivity"></activity>
+        <activity android:name=".view.ListToolsActivity"></activity>
         <activity
             android:name=".view.CreateUserActivity"
             android:label="Alta usuario">

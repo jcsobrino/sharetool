@@ -2,7 +2,6 @@ package jcsobrino.tddm.uoc.sharetool.service.impl;
 
 import android.text.TextUtils;
 
-import com.activeandroid.ActiveAndroid;
 import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 
@@ -15,13 +14,14 @@ import java.util.Random;
 
 import jcsobrino.tddm.uoc.sharetool.common.ToolOrderEnum;
 import jcsobrino.tddm.uoc.sharetool.common.UtilFunctions;
-import jcsobrino.tddm.uoc.sharetool.domain.Tool;
-import jcsobrino.tddm.uoc.sharetool.domain.User;
-import jcsobrino.tddm.uoc.sharetool.dto.ITool;
-import jcsobrino.tddm.uoc.sharetool.dto.IUser;
+import jcsobrino.tddm.uoc.sharetool.domain.impl.Tool;
+import jcsobrino.tddm.uoc.sharetool.domain.impl.User;
+import jcsobrino.tddm.uoc.sharetool.domain.ITool;
+import jcsobrino.tddm.uoc.sharetool.domain.IUser;
 import jcsobrino.tddm.uoc.sharetool.service.ApiService;
 
 /**
+ * Implementación de la API sobre SQLite
  * Created by JoséCarlos on 13/11/2015.
  */
 public class ApiServiceImpl implements ApiService {
@@ -87,8 +87,8 @@ public class ApiServiceImpl implements ApiService {
 
         List<User> listUsers = Arrays.asList(user1, user2, user3);
 
+        // alta herramientas de prueba
         Random random = new Random();
-
         for (int i = 0; i < MAX_TOOLS; i++) {
 
             float pricePerDay = UtilFunctions.randomBetween(PRICE_MIN, PRICE_MAX);
@@ -145,6 +145,9 @@ public class ApiServiceImpl implements ApiService {
 
         List<Tool> listTools = fromTool.execute();
 
+        // SQLite para Android no permite la creación de funciones por lo que no es posible
+        // calcular la distancia de las herramientas directamente sobre la base de datos
+        // Por esta razón, esta operación hay que hacerla sobre Java
         if (lat != null && lng != null) {
 
             float[] distance = new float[3];
@@ -156,12 +159,14 @@ public class ApiServiceImpl implements ApiService {
 
                 tool.setDistanceInKilometers(UtilFunctions.calculateDistance(tool, lat, lng));
 
+                // si el usuario indica filtro de distanca máxima, se eliminan las herramientas afectadas
                 if (maxKilometers != null && tool.getDistanceInKilometers() > maxKilometers) {
                     it.remove();
                 }
             }
         }
 
+        // ordenación por herramienta más cercana. No se puede hacer directamente sobre SQLite
         if (toolOrder == ToolOrderEnum.NEAR_TOOL && lat != null && lng != null) {
 
             Collections.sort(listTools, new Comparator<Tool>() {
@@ -187,6 +192,7 @@ public class ApiServiceImpl implements ApiService {
         return new Select().from(User.class).where("id = ?", id).executeSingle();
     }
 
+    // simula un retardo en la ejecución de las funciones a modo de llamadas a través de Internet
     private void simulateDelay() {
 
         try {

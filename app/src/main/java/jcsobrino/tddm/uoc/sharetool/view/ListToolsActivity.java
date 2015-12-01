@@ -25,17 +25,19 @@ import jcsobrino.tddm.uoc.sharetool.R;
 import jcsobrino.tddm.uoc.sharetool.common.ApiFactory;
 import jcsobrino.tddm.uoc.sharetool.common.IntentExtraInfoEnum;
 import jcsobrino.tddm.uoc.sharetool.common.LocationService;
-import jcsobrino.tddm.uoc.sharetool.dto.ITool;
-import jcsobrino.tddm.uoc.sharetool.dto.IUser;
+import jcsobrino.tddm.uoc.sharetool.domain.ITool;
+import jcsobrino.tddm.uoc.sharetool.domain.IUser;
 import jcsobrino.tddm.uoc.sharetool.service.ApiService;
 import jcsobrino.tddm.uoc.sharetool.view.form.FilterListTools;
 
-public class ListActivity extends AppCompatActivity implements NoticeDialogListener {
+/**
+ * Activity que mantiene el listado de herramientas registradas en el sistema
+ */
+public class ListToolsActivity extends AppCompatActivity implements NoticeDialogListener {
 
-    public static final long MS_BETWEEN_TWO_CALLS = 2000;
+    private static final long MS_BETWEEN_TWO_CALLS = 2000;
     private ApiService mAPI = ApiFactory.INSTANCE.getApi();
     private IUser mLoggedUser;
-
     private Location mCurrentLocation;
     private ListView mToolsListView;
     private ArrayAdapter mToolsListArraysAdapter;
@@ -45,7 +47,7 @@ public class ListActivity extends AppCompatActivity implements NoticeDialogListe
     private String mQuerySearchTools = "";
     private SearchView mSearchView;
     private MenuItem mSearchMenuItem;
-    long mLastQuerySubmit = 0;
+    private long mLastQuerySubmit = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,11 +74,11 @@ public class ListActivity extends AppCompatActivity implements NoticeDialogListe
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ITool selectedTool = (ITool) parent.getAdapter().getItem(position);
-                Intent intent = new Intent(ListActivity.this, ToolDetailsActivity.class);
-                intent.putExtra(IntentExtraInfoEnum.TOOL.name(), selectedTool);
-                intent.putExtra(IntentExtraInfoEnum.TOOL_ID.name(), selectedTool.getId());
+                Intent intent = new Intent(ListToolsActivity.this, ToolDetailsActivity.class);
+                intent.putExtra(IntentExtraInfoEnum.SELECTED_TOOL.name(), selectedTool);
+                intent.putExtra(IntentExtraInfoEnum.SELECTED_TOOL_ID.name(), selectedTool.getId());
                 if (mFilters.getDateDaysFilter()) {
-                    intent.putExtra(IntentExtraInfoEnum.TOOL_DAYS.name(), mFilters.getDays());
+                    intent.putExtra(IntentExtraInfoEnum.SELECTED_FILTER_RENT_DAYS.name(), mFilters.getDays());
                 }
                 startActivityForResult(intent, 0);
                 overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
@@ -181,13 +183,17 @@ public class ListActivity extends AppCompatActivity implements NoticeDialogListe
 
     }
 
+    /**
+     * Ejecuta las búsquedas de herramientas en segundo plano
+     */
     private class FindToolsAsyncTask extends AsyncTask<FilterListTools, Integer, List<? extends ITool>> {
 
+        // diálogo que se muestra durante las búsquedas de herramientas
         ProgressDialog progressDialog;
 
         @Override
         protected void onPreExecute() {
-            progressDialog = ProgressDialog.show(ListActivity.this, getString(R.string.loading), getString(R.string.wating_loading_tools), true, true);
+            progressDialog = ProgressDialog.show(ListToolsActivity.this, getString(R.string.loading), getString(R.string.wating_loading_tools), true, true);
             mToolsListArraysAdapter.clear();
         }
 
