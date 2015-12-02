@@ -1,7 +1,9 @@
 package jcsobrino.tddm.uoc.sharetool.service.impl;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
 
+import com.activeandroid.query.Delete;
 import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 
@@ -37,14 +39,18 @@ public class ApiServiceImpl implements ApiService {
 
     private void populateDatabase() {
 
+        // borrar los registros de las tablas de herramientas y usuarios
+        new Delete().from(Tool.class).execute();
+        new Delete().from(User.class).execute();
+
         // parámetros para la generación de datos de prueba
         final int MAX_TOOLS = 50;
         final float PRICE_MIN = 1.0f;
         final float PRICE_MAX = 100.0f;
-        final float LAT_MAX = 41.476175f;
-        final float LAT_MIN = 41.311855f;
-        final float LNG_MAX = 2.278976f;
-        final float LNG_MIN = 2.021141f;
+        final float LAT_MAX = 41.47f;
+        final float LAT_MIN = 41.31f;
+        final float LNG_MAX = 2.27f;
+        final float LNG_MIN = 2.02f;
 
         final String[] toolNames = {
                 "Taladro Percutor 500W",

@@ -35,8 +35,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        deleteDatabase("ShareTool.db");
-
         mEmail = (EditText) findViewById(R.id.emailLoginEditText);
         mPassword = (EditText) findViewById(R.id.passwordLoginEditText);
         mCreateUser = (TextView) findViewById(R.id.createUserLoginTextView);

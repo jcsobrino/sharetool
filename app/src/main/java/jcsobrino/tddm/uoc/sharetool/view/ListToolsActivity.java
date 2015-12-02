@@ -35,24 +35,32 @@ import jcsobrino.tddm.uoc.sharetool.view.form.FilterListTools;
  */
 public class ListToolsActivity extends AppCompatActivity implements NoticeDialogListener {
 
-    private static final long MS_BETWEEN_TWO_CALLS = 2000;
     private ApiService mAPI = ApiFactory.INSTANCE.getApi();
+
+    // usuario logado
     private IUser mLoggedUser;
     private Location mCurrentLocation;
     private ListView mToolsListView;
     private ArrayAdapter mToolsListArraysAdapter;
     private FilterToolsDialog mFilterToolsDialog;
     private SwipeRefreshLayout mRefreshLayout;
-    private FilterListTools mFilters = new FilterListTools();
-    private String mQuerySearchTools = "";
     private SearchView mSearchView;
     private MenuItem mSearchMenuItem;
+
+    // filtros y ordenación de herramientas
+    private FilterListTools mFilters = new FilterListTools();
+    private String mQuerySearchTools = "";
+
+    // solución bug doble llamada a onQuerySubmit
     private long mLastQuerySubmit = 0;
+    private static final long MS_BETWEEN_TWO_CALLS = 2000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+
+        // inicia el servicio de localización
         startService(new Intent(this, LocationService.class));
 
         mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);

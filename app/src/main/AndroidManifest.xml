@@ -9,11 +9,6 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <!--
-         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
-         Google Maps Android API v2, but you must specify either coarse or fine
-         location permissions for the 'MyLocation' functionality.
-    -->
     <application
         android:name="com.activeandroid.app.Application"
         android:allowBackup="true"
@@ -21,6 +16,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <!-- ActiveAndroid configuracion-->
         <meta-data
             android:name="AA_DB_NAME"
             android:value="ShareTool.db" />
@@ -31,12 +28,12 @@
             android:name="AA_MODELS"
             android:value="jcsobrino.tddm.uoc.sharetool.domain.User, jcsobrino.tddm.uoc.sharetool.domain.Tool" />
 
+
         <activity android:name=".view.ListToolsActivity"></activity>
         <activity
             android:name=".view.CreateUserActivity"
-            android:label="Alta usuario">
-        </activity>
-        <activity android:name=".view.LoginActivity" >
+            android:label="Alta usuario"></activity>
+        <activity android:name=".view.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

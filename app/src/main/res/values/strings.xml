@@ -22,4 +22,5 @@
     <string name="no_available_rent_data">Período de alquiler no indicado</string>
     <string name="rent_tool_message">Has alquilado la herramienta %s</string>
     <string name="distance_unknown"><![CDATA[<distancia desconocida>]]></string>
+    <string name="tool_price">%.2f €</string>
 </resources>

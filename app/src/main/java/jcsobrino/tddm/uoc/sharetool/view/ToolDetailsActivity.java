@@ -75,8 +75,8 @@ public class ToolDetailsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mUserToolTextView.setText(mTool.getUser().getName());
         mDescriptionTextView.setText(mTool.getDescription());
-        mPricePerDayTextView.setText(String.format("%.2f €", mTool.getPricePerDay()));
-        mTotalPriceTextView.setText(mDays == null ? getString(R.string.no_available_rent_data) : String.format("%.2f €", mTool.getPricePerDay() * mDays));
+        mPricePerDayTextView.setText(String.format(getString(R.string.tool_price), mTool.getPricePerDay()));
+        mTotalPriceTextView.setText(mDays == null ? getString(R.string.no_available_rent_data) : String.format(getString(R.string.tool_price), mTool.getPricePerDay() * mDays));
     }
 
     @Override
