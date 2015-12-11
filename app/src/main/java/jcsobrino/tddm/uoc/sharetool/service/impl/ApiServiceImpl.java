@@ -170,6 +170,12 @@ public class ApiServiceImpl implements ApiService {
                     it.remove();
                 }
             }
+        } else {
+
+            // supuesto bug de ActiveAndroid: los campos no almacenados mantienen su valor entre invocaciones a la bbdd
+            for (Tool t:listTools) {
+                t.setDistanceInKilometers(null);
+            }
         }
 
         // ordenación por herramienta más cercana. No se puede hacer directamente sobre SQLite

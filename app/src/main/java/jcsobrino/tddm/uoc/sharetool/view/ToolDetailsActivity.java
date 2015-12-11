@@ -60,12 +60,12 @@ public class ToolDetailsActivity extends AppCompatActivity {
         mTool = (Tool) getIntent().getSerializableExtra(IntentExtraInfoEnum.SELECTED_TOOL.name());
         mToolId = (Long) getIntent().getSerializableExtra(IntentExtraInfoEnum.SELECTED_TOOL_ID.name());
         mDays = (Integer) getIntent().getSerializableExtra(IntentExtraInfoEnum.SELECTED_FILTER_RENT_DAYS.name());
-
+        boolean geolocationEnabled = (boolean) getIntent().getSerializableExtra(IntentExtraInfoEnum.GEOLOCATION_ENABLED.name());
         Picasso.with(this).load(UtilFunctions.getImagePlaceholder(mToolId)).fit().into(mImageToolImageView);
 
         setTitle(mTool.getName());
 
-        Location currentLocation = LocationService.getCurrentLocation();
+        Location currentLocation = geolocationEnabled ? LocationService.getCurrentLocation() : null;
 
         if (currentLocation != null) {
             mDistanceToolTextView.setText(String.format(getString(R.string.distance_kilometers), UtilFunctions.calculateDistance(mTool)));

@@ -3,6 +3,7 @@ package jcsobrino.tddm.uoc.sharetool.view;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -40,6 +41,7 @@ public class ListToolsActivity extends AppCompatActivity implements NoticeDialog
     // usuario logado
     private IUser mLoggedUser;
     private Location mCurrentLocation;
+    private boolean mLocationEnabled = false;
     private ListView mToolsListView;
     private ArrayAdapter mToolsListArraysAdapter;
     private FilterToolsDialog mFilterToolsDialog;
@@ -85,6 +87,7 @@ public class ListToolsActivity extends AppCompatActivity implements NoticeDialog
                 Intent intent = new Intent(ListToolsActivity.this, ToolDetailsActivity.class);
                 intent.putExtra(IntentExtraInfoEnum.SELECTED_TOOL.name(), selectedTool);
                 intent.putExtra(IntentExtraInfoEnum.SELECTED_TOOL_ID.name(), selectedTool.getId());
+                intent.putExtra(IntentExtraInfoEnum.GEOLOCATION_ENABLED.name(), mLocationEnabled);
                 if (mFilters.getDateDaysFilter()) {
                     intent.putExtra(IntentExtraInfoEnum.SELECTED_FILTER_RENT_DAYS.name(), mFilters.getDays());
                 }
@@ -100,6 +103,9 @@ public class ListToolsActivity extends AppCompatActivity implements NoticeDialog
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
+
+        //simula que el servicio de geolocalización está desactivado inicialmente
+        menu.findItem(R.id.location).getIcon().setAlpha(80);
 
         mSearchMenuItem = menu.findItem(R.id.search);
         mSearchView = (SearchView) menu.findItem(R.id.search).getActionView();
@@ -142,12 +148,27 @@ public class ListToolsActivity extends AppCompatActivity implements NoticeDialog
         switch (item.getItemId()) {
 
             case R.id.location:
-                mCurrentLocation = LocationService.getCurrentLocation();
-                if (mCurrentLocation != null) {
-                    Toast.makeText(getApplicationContext(), String.format("Lat: %.3f, Lng: %.3f", mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude()), Toast.LENGTH_LONG).show();
+
+                // valor del switch que activa o descativa la geolocalización
+                mLocationEnabled = !mLocationEnabled;
+
+                if(mLocationEnabled) {
+                    mCurrentLocation = LocationService.getCurrentLocation();
+                    if (mCurrentLocation != null) {
+                        Toast.makeText(getApplicationContext(), String.format("Lat: %.3f, Lng: %.3f", mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude()), Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), R.string.no_available_location, Toast.LENGTH_LONG).show();
+                        mLocationEnabled = false;
+                    }
                 } else {
-                    Toast.makeText(getApplicationContext(), R.string.no_available_location, Toast.LENGTH_LONG).show();
+
+                    mCurrentLocation = null;
+                    Toast.makeText(getApplicationContext(), R.string.geolocation_service_disabled, Toast.LENGTH_LONG).show();
                 }
+
+                //simula el estado del servicio de geolocalización: activo o inactivo
+                item.getIcon().setAlpha(mLocationEnabled ? 255 : 80);
+
                 return true;
             case R.id.filter:
                 mFilterToolsDialog.show();
@@ -210,6 +231,11 @@ public class ListToolsActivity extends AppCompatActivity implements NoticeDialog
 
             if (params != null && params.length > 0 && params[0] != null) {
                 mFilters = params[0];
+            }
+
+            // se actualiza la posición actual si está activo el servicio
+            if(mLocationEnabled) {
+                mCurrentLocation = LocationService.getCurrentLocation();
             }
 
             String toolName = mFilters.getToolName();
